@@ -50,6 +50,7 @@ sc-service = { version = "0.10.0-dev", default-features = false, optional = true
 sp-state-machine = { version = "0.28.0", default-features = false, path = "../../primitives/state-machine" }
 sp-externalities = { version = "0.19.0", default-features = false, path = "../../primitives/externalities" }
 sp-debug-derive = { path = "../../primitives/debug-derive" }
+sp-crypto-ec-utils = { version = "0.4.0", default-features = false, path = "../../primitives/crypto/ec-utils" }
 
 # 3rd party
 array-bytes = { version = "6.1", optional = true }
@@ -112,6 +113,7 @@ std = [
 	"sp-transaction-pool/std",
 	"trie-db/std",
 	"substrate-wasm-builder",
+	"sp-crypto-ec-utils/std",
 ]
 # Special feature to disable logging
 disable-logging = [ "sp-api/disable-logging" ]

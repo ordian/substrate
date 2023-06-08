@@ -1,0 +1,62 @@
+[package]
+name = "sp-crypto-ec-utils-test"
+version = "2.0.0"
+authors = ["Parity Technologies <admin@parity.io>"]
+edition = "2021"
+description = "Integration tests for application-crypto"
+license = "Apache-2.0"
+publish = false
+homepage = "https://substrate.io"
+repository = "https://github.com/paritytech/substrate/"
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+sp-api = { version = "4.0.0-dev", path = "../../../api" }
+sp-crypto-ec-utils = { version = "0.4.0", path = "../" }
+sp-core = { version = "21.0.0", default-features = false, path = "../../../core" }
+sp-keystore = { version = "0.27.0", default-features = false, path = "../../../keystore" }
+sp-runtime = { version = "24.0.0", path = "../../../runtime" }
+sp-std = { version = "8.0.0", default-features = false, path = "../../../std" }
+sp-io = { version = "23.0.0", default-features = false, path = "../../../io" }
+sp-state-machine = { version = "0.28.0", default-features = false, path = "../../../state-machine" }
+sp-wasm-interface = { version = "14.0.0", path = "../../../wasm-interface", default-features = false }
+substrate-test-runtime-client = { version = "2.0.0", path = "../../../../test-utils/runtime/client" }
+substrate-test-runtime = { version = "2.0.0", path = "../../../../test-utils/runtime" }
+ark-bls12-381 = { version = "0.4.0",features = [ "curve" ], default-features = false }
+ark-bls12-377 = { version = "0.4.0",features = [ "curve" ], default-features = false }
+ark-bw6-761 = { version = "0.4.0",default-features = false }
+ark-ed-on-bls12-381-bandersnatch = { version = "0.4.0", default-features = false }
+ark-ed-on-bls12-377 = { version = "0.4.0",default-features = false }
+ark-ec = { version = "0.4.0",default-features = false }
+ark-scale = { version = "0.0.3", features = ["hazmat"], default-features = false }
+codec = { package = "parity-scale-codec", version = "3.5.0", default-features = false }
+sc-executor = { version = "0.10.0-dev", path = "../../../../client/executor" }
+sc-service = { version = "0.10.0-dev", default-features = false, features = [
+	"test-helpers",
+], path = "../../../../client/service" }
+sc-client-api = { version = "4.0.0-dev", path = "../../../../client/api" }
+sc-offchain = { version = "4.0.0-dev", path = "../../../../client/offchain" }
+substrate-test-client = { version = "2.0.0", path = "../../../../test-utils/client" }
+
+[features]
+default = [ "std" ]
+std = [
+	"sp-api/std",
+	"sp-crypto-ec-utils/std",
+	"sp-core/std",
+	"sp-keystore/std",
+	"sp-runtime/std",
+	"sp-std/std",
+    "sp-io/std",
+	"sp-state-machine/std",
+    "ark-bls12-381/std",
+    "ark-bls12-377/std",
+    "ark-bw6-761/std",
+    "ark-ed-on-bls12-381-bandersnatch/std",
+    "ark-ed-on-bls12-377/std",
+    "ark-ec/std",
+    "ark-scale/std",
+    "codec/std",
+]

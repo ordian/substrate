@@ -193,7 +193,6 @@ decl_runtime_apis! {
 		fn vec_with_capacity(size: u32) -> Vec<u8>;
 		/// Returns the initialized block number.
 		fn get_block_number() -> u64;
-
 		/// Test that `ed25519` crypto works in the runtime.
 		///
 		/// Returns the signature generated for the message `ed25519` and the public key.
@@ -206,6 +205,8 @@ decl_runtime_apis! {
 		///
 		/// Returns the signature generated for the message `ecdsa`.
 		fn test_ecdsa_crypto() -> (ecdsa::AppSignature, ecdsa::AppPublic);
+		/// Tests a projective mul for g1 on bls12_381
+		fn test_bls12_381_g1_mul_projective_crypto(base: Vec<u8>, scalar: Vec<u8>) -> Vec<u8>;
 		/// Run various tests against storage.
 		fn test_storage();
 		/// Check a witness.
@@ -585,6 +586,10 @@ impl_runtime_apis! {
 			test_ecdsa_crypto()
 		}
 
+		fn test_bls12_381_g1_mul_projective_crypto(base: Vec<u8>, scalar: Vec<u8>) -> Vec<u8> {
+			test_bls12_381_g1_mul_projective_crypto(base, scalar)
+		}
+
 		fn test_storage() {
 			test_read_storage();
 			test_read_child_storage();
@@ -756,6 +761,12 @@ fn test_ecdsa_crypto() -> (ecdsa::AppSignature, ecdsa::AppPublic) {
 
 	assert!(public0.verify(&"ecdsa", &signature));
 	(signature, public0)
+}
+
+fn test_bls12_381_g1_mul_projective_crypto(base: Vec<u8>, scalar: Vec<u8>) -> Vec<u8> {
+	// let result = sp_crypto_ec_utils::elliptic_curves::bls12_381_mul_projective_g1(base,
+	// scalar).expect("Projective mul works for g1 in bls12_381"); result
+	Vec::new()
 }
 
 fn test_read_storage() {
