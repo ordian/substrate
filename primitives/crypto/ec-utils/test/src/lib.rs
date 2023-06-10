@@ -18,4 +18,7 @@
 //! Integration tests for sp-crypto-ec-utils
 
 #[cfg(test)]
+mod utils;
+
+#[cfg(test)]
 mod bls12_381;
