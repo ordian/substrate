@@ -16,6 +16,7 @@ targets = ["x86_64-unknown-linux-gnu"]
 [dependencies]
 sp-api = { version = "4.0.0-dev", default-features = false, path = "../../../../api" }
 sp-application-crypto = { version = "23.0.0", default-features = false, path = "../../../../application-crypto" }
+sp-block-builder = { version = "4.0.0-dev", default-features = false, path = "../../../../block-builder" }
 sp-consensus-aura = { version = "0.10.0-dev", default-features = false, path = "../../../../consensus/aura" }
 sp-consensus-grandpa = { version = "4.0.0-dev", default-features = false, path = "../../../../consensus/grandpa" }
 sp-consensus-babe = { version = "0.10.0-dev", default-features = false, path = "../../../../consensus/babe" }
@@ -24,13 +25,15 @@ sp-core = { version = "21.0.0", default-features = false, path = "../../../../co
 sp-crypto-ec-utils = { version = "0.4.0", default-features = false, path = "../../" }
 sp-externalities = { version = "0.19.0", default-features = false, path = "../../../../externalities" }
 sp-inherents = { version = "4.0.0-dev", default-features = false, path = "../../../../inherents" }
+sp-keyring = { version = "24.0.0", optional = true, path = "../../../../keyring" }
 sp-offchain = { version = "4.0.0-dev", default-features = false, path = "../../../../offchain" }
 sp-runtime = { version = "24.0.0", default-features = false, path = "../../../../runtime" }
 sp-session = { version = "4.0.0-dev", default-features = false, path = "../../../../session" }
 sp-std = { version = "8.0.0", default-features = false, path = "../../../../std" }
 sp-io = { version = "23.0.0", default-features = false, path = "../../../../io" }
 sp-state-machine = { version = "0.28.0", default-features = false, path = "../../../../state-machine" }
-sp-trie = { version = "0.28.0", default-features = false, path = "../../../../trie" }
+sp-transaction-pool = { version = "4.0.0-dev", default-features = false, path = "../../../../transaction-pool" }
+sp-trie = { version = "22.0.0", default-features = false, path = "../../../../trie" }
 sp-version = { version = "22.0.0", default-features = false, path = "../../../../version" }
 sp-wasm-interface = { version = "14.0.0", default-features = false, path = "../../../../wasm-interface" }
 pallet-balances = { version = "4.0.0-dev", default-features = false, path = "../../../../../frame/balances" }
@@ -38,11 +41,24 @@ trie-db = { version = "0.27.0", default-features = false }
 codec = { package = "parity-scale-codec", default-features = false, version = "3.5.0" }
 frame-executive = { version = "4.0.0-dev", default-features = false, path = "../../../../../frame/executive" }
 frame-system = { version = "4.0.0-dev", default-features = false, path = "../../../../../frame/system" }
+frame-system-rpc-runtime-api = { version = "4.0.0-dev", default-features = false, path = "../../../../../frame/system/rpc/runtime-api" }
 frame-support = { version = "4.0.0-dev", default-features = false, path = "../../../../../frame/support" }
 pallet-babe = { version = "4.0.0-dev", default-features = false, path = "../../../../../frame/babe" }
 pallet-timestamp = { version = "4.0.0-dev", default-features = false, path = "../../../../../frame/timestamp" }
 scale-info = { version = "2.5.0", default-features = false, features = ["derive"] }
 substrate-test-runtime = { version = "2.0.0", default-features = false, path = "../../../../../test-utils/runtime" }
+
+array-bytes = { version = "6.1", optional = true }
+log = { version = "0.4.17", default-features = false }
+serde = { version = "1.0.163", optional = true, features = ["derive"] }
+
+[dev-dependencies]
+futures = "0.3.21"
+sc-block-builder = { version = "0.10.0-dev", path = "../../../../../client/block-builder" }
+sc-executor = { version = "0.10.0-dev", path = "../../../../../client/executor" }
+sp-consensus = { version = "0.10.0-dev", path = "../../../../consensus/common" }
+substrate-test-runtime-client = { version = "2.0.0", path = "../../../../../test-utils/runtime/client" }
+sp-tracing = { version = "10.0.0", path = "../../../../tracing" }
 
 [build-dependencies]
 substrate-wasm-builder = { version = "5.0.0-dev", path = "../../../../../utils/wasm-builder", optional = true }
@@ -50,6 +66,7 @@ substrate-wasm-builder = { version = "5.0.0-dev", path = "../../../../../utils/w
 [features]
 default = [ "std" ]
 std = [
+	"array-bytes",
 	"sp-api/std",
 	"sp-application-crypto/std",
 	"sp-consensus-aura/std",
@@ -59,6 +76,7 @@ std = [
 	"sp-core/std",
 	"sp-crypto-ec-utils/std",
 	"sp-externalities/std",
+	"sp-keyring",
 	"sp-inherents/std",
 	"sp-offchain/std",
 	"sp-runtime/std",
@@ -66,18 +84,24 @@ std = [
 	"sp-std/std",
     "sp-io/std",
 	"sp-state-machine/std",
+	"sp-transaction-pool/std",
 	"sp-trie/std",
     "sp-version/std",
     "sp-wasm-interface/std",
+	"serde",
 	"pallet-balances/std",
 	"trie-db/std",
     "codec/std",
 	"frame-executive/std",
 	"frame-system/std",
+	"frame-system-rpc-runtime-api/std",
 	"frame-support/std",
 	"pallet-babe/std",
 	"pallet-timestamp/std",
 	"scale-info/std",
 	"substrate-test-runtime/std",
+	"log/std",
     "substrate-wasm-builder",
 ]
+
+disable-logging = [ "sp-api/disable-logging" ]
