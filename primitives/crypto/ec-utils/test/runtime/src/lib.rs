@@ -52,7 +52,7 @@ use sp_inherents::{CheckInherentsResult, InherentData};
 use sp_runtime::{
 	create_runtime_str, impl_opaque_keys,
 	traits::{BlakeTwo256, Block as BlockT, NumberFor, Verify},
-	transaction_validity::{TransactionSource, TransactionValidity, TransactionValidityError},
+	transaction_validity::{TransactionValidityError},
 	ApplyExtrinsicResult, Perbill,
 };
 #[cfg(any(feature = "std", test))]
@@ -333,18 +333,6 @@ impl_runtime_apis! {
 		}
 		fn metadata_versions() -> sp_std::vec::Vec<u32> {
 			unimplemented!()
-		}
-	}
-
-	impl sp_transaction_pool::runtime_api::TaggedTransactionQueue<Block> for Runtime {
-		fn validate_transaction(
-			source: TransactionSource,
-			utx: <Block as BlockT>::Extrinsic,
-			block_hash: <Block as BlockT>::Hash,
-		) -> TransactionValidity {
-			let validity = Executive::validate_transaction(source, utx.clone(), block_hash);
-			log::trace!(target: LOG_TARGET, "validate_transaction {:?} {:?}", utx, validity);
-			validity
 		}
 	}
 
