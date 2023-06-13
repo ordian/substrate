@@ -23,7 +23,7 @@
 pub use substrate_test_runtime::extrinsic;
 #[cfg(feature = "std")]
 pub use substrate_test_runtime::genesismap;
-pub use substrate_test_runtime::substrate_test_pallet;
+use substrate_test_runtime::SubstrateTest;
 
 use codec::{Decode, Encode};
 use frame_support::{
@@ -51,7 +51,7 @@ pub use sp_core::hash::H256;
 use sp_inherents::{CheckInherentsResult, InherentData};
 use sp_runtime::{
 	create_runtime_str, impl_opaque_keys,
-	traits::{BlakeTwo256, Block as BlockT, DispatchInfoOf, NumberFor, Verify},
+	traits::{BlakeTwo256, Block as BlockT, NumberFor, Verify},
 	transaction_validity::{TransactionSource, TransactionValidity, TransactionValidityError},
 	ApplyExtrinsicResult, Perbill,
 };
@@ -65,7 +65,7 @@ pub type AuraId = sp_consensus_aura::sr25519::AuthorityId;
 #[cfg(feature = "std")]
 pub use extrinsic::{ExtrinsicBuilder, Transfer};
 
-const LOG_TARGET: &str = "substrate-test-runtime";
+const LOG_TARGET: &str = "sp-crypto-ec-utils-test-runtime";
 
 // Include the WASM binary
 #[cfg(feature = "std")]
@@ -204,21 +204,6 @@ impl sp_runtime::traits::SignedExtension for CheckSubstrateCall {
 		Ok(())
 	}
 
-	fn validate(
-		&self,
-		_who: &Self::AccountId,
-		call: &Self::Call,
-		_info: &DispatchInfoOf<Self::Call>,
-		_len: usize,
-	) -> TransactionValidity {
-		log::trace!(target: LOG_TARGET, "validate");
-		match call {
-			RuntimeCall::SubstrateTest(ref substrate_test_call) =>
-				substrate_test_pallet::validate_runtime_call(substrate_test_call),
-			_ => Ok(Default::default()),
-		}
-	}
-
 	fn pre_dispatch(
 		self,
 		who: &Self::AccountId,
@@ -238,7 +223,6 @@ construct_runtime!(
 	{
 		System: frame_system,
 		Babe: pallet_babe,
-		SubstrateTest: substrate_test_pallet::pallet,
 	}
 );
 
@@ -312,8 +296,6 @@ parameter_types! {
 	pub const MaxLocks: u32 = 50;
 	pub const MaxReserves: u32 = 50;
 }
-
-impl substrate_test_pallet::Config for Runtime {}
 
 // Required for `pallet_babe::Config`.
 impl pallet_timestamp::Config for Runtime {
