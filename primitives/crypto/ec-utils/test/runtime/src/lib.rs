@@ -25,7 +25,6 @@ pub use substrate_test_runtime::extrinsic;
 pub use substrate_test_runtime::genesismap;
 use substrate_test_runtime::SubstrateTest;
 
-use codec::{Decode, Encode};
 use frame_support::{
 	construct_runtime,
 	dispatch::DispatchClass,
@@ -40,11 +39,10 @@ use frame_system::{
 	limits::{BlockLength, BlockWeights},
 	CheckNonce, CheckWeight,
 };
-use scale_info::TypeInfo;
 use sp_std::prelude::*;
 
 use sp_application_crypto::{ecdsa, ed25519, sr25519};
-use sp_core::{OpaqueMetadata, RuntimeDebug};
+use sp_core::OpaqueMetadata;
 
 use sp_api::{decl_runtime_apis, impl_runtime_apis};
 pub use sp_core::hash::H256;
@@ -52,7 +50,6 @@ use sp_inherents::{CheckInherentsResult, InherentData};
 use sp_runtime::{
 	create_runtime_str, impl_opaque_keys,
 	traits::{BlakeTwo256, Block as BlockT, NumberFor, Verify},
-	transaction_validity::{TransactionValidityError},
 	ApplyExtrinsicResult, Perbill,
 };
 #[cfg(any(feature = "std", test))]
@@ -122,7 +119,7 @@ pub type Signature = sr25519::Signature;
 pub type Pair = sp_core::sr25519::Pair;
 
 /// The SignedExtension to the basic transaction logic.
-pub type SignedExtra = (CheckNonce<Runtime>, CheckWeight<Runtime>, CheckSubstrateCall);
+pub type SignedExtra = (CheckNonce<Runtime>, CheckWeight<Runtime>);
 /// The payload being signed in transactions.
 pub type SignedPayload = sp_runtime::generic::SignedPayload<RuntimeCall, SignedExtra>;
 /// Unchecked extrinsic type as expected by this runtime.
@@ -165,53 +162,6 @@ pub type Executive = frame_executive::Executive<
 	Runtime,
 	AllPalletsWithSystem,
 >;
-
-#[derive(Copy, Clone, PartialEq, Eq, Encode, Decode, RuntimeDebug, TypeInfo)]
-pub struct CheckSubstrateCall;
-
-impl sp_runtime::traits::Printable for CheckSubstrateCall {
-	fn print(&self) {
-		"CheckSubstrateCall".print()
-	}
-}
-
-impl sp_runtime::traits::Dispatchable for CheckSubstrateCall {
-	type RuntimeOrigin = CheckSubstrateCall;
-	type Config = CheckSubstrateCall;
-	type Info = CheckSubstrateCall;
-	type PostInfo = CheckSubstrateCall;
-
-	fn dispatch(
-		self,
-		_origin: Self::RuntimeOrigin,
-	) -> sp_runtime::DispatchResultWithInfo<Self::PostInfo> {
-		panic!("This implementation should not be used for actual dispatch.");
-	}
-}
-
-impl sp_runtime::traits::SignedExtension for CheckSubstrateCall {
-	type AccountId = AccountId;
-	type Call = RuntimeCall;
-	type AdditionalSigned = ();
-	type Pre = ();
-	const IDENTIFIER: &'static str = "CheckSubstrateCall";
-
-	fn additional_signed(
-		&self,
-	) -> sp_std::result::Result<Self::AdditionalSigned, TransactionValidityError> {
-		Ok(())
-	}
-
-	fn pre_dispatch(
-		self,
-		who: &Self::AccountId,
-		call: &Self::Call,
-		info: &sp_runtime::traits::DispatchInfoOf<Self::Call>,
-		len: usize,
-	) -> Result<Self::Pre, TransactionValidityError> {
-		self.validate(who, call, info, len).map(drop)
-	}
-}
 
 construct_runtime!(
 	pub enum Runtime where
