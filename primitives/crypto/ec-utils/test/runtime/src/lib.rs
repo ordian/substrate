@@ -59,8 +59,6 @@ use sp_runtime::{
 use sp_version::NativeVersion;
 use sp_version::RuntimeVersion;
 
-pub use sp_consensus_babe::{AllowedSlots, BabeEpochConfiguration, Slot};
-
 pub type AuraId = sp_consensus_aura::sr25519::AuthorityId;
 #[cfg(feature = "std")]
 pub use extrinsic::{ExtrinsicBuilder, Transfer};
@@ -222,7 +220,6 @@ construct_runtime!(
 		UncheckedExtrinsic = Extrinsic
 	{
 		System: frame_system,
-		Babe: pallet_babe,
 	}
 );
 
@@ -297,27 +294,8 @@ parameter_types! {
 	pub const MaxReserves: u32 = 50;
 }
 
-// Required for `pallet_babe::Config`.
-impl pallet_timestamp::Config for Runtime {
-	type Moment = u64;
-	type OnTimestampSet = Babe;
-	type MinimumPeriod = ConstU64<500>;
-	type WeightInfo = pallet_timestamp::weights::SubstrateWeight<Runtime>;
-}
-
 parameter_types! {
 	pub const EpochDuration: u64 = 6;
-}
-
-impl pallet_babe::Config for Runtime {
-	type EpochDuration = EpochDuration;
-	type ExpectedBlockTime = ConstU64<10_000>;
-	type EpochChangeTrigger = pallet_babe::SameAuthoritiesForever;
-	type DisabledValidators = ();
-	type KeyOwnerProof = sp_core::Void;
-	type EquivocationReportSystem = ();
-	type WeightInfo = ();
-	type MaxAuthorities = ConstU32<10>;
 }
 
 impl_opaque_keys! {
@@ -327,12 +305,6 @@ impl_opaque_keys! {
 		pub ecdsa: ecdsa::AppPublic,
 	}
 }
-
-pub(crate) const TEST_RUNTIME_BABE_EPOCH_CONFIGURATION: BabeEpochConfiguration =
-	BabeEpochConfiguration {
-		c: (3, 10),
-		allowed_slots: AllowedSlots::PrimaryAndSecondaryPlainSlots,
-	};
 
 impl_runtime_apis! {
 	impl sp_api::Core<Block> for Runtime {
@@ -415,48 +387,6 @@ impl_runtime_apis! {
 
 		fn authorities() -> Vec<AuraId> {
 			SubstrateTest::authorities().into_iter().map(|auth| AuraId::from(auth)).collect()
-		}
-	}
-
-	impl sp_consensus_babe::BabeApi<Block> for Runtime {
-		fn configuration() -> sp_consensus_babe::BabeConfiguration {
-			let epoch_config = Babe::epoch_config().unwrap_or(TEST_RUNTIME_BABE_EPOCH_CONFIGURATION);
-			sp_consensus_babe::BabeConfiguration {
-				slot_duration: Babe::slot_duration(),
-				epoch_length: EpochDuration::get(),
-				c: epoch_config.c,
-				authorities: Babe::authorities().to_vec(),
-				randomness: Babe::randomness(),
-				allowed_slots: epoch_config.allowed_slots,
-			}
-		}
-
-		fn current_epoch_start() -> Slot {
-			Babe::current_epoch_start()
-		}
-
-		fn current_epoch() -> sp_consensus_babe::Epoch {
-			Babe::current_epoch()
-		}
-
-		fn next_epoch() -> sp_consensus_babe::Epoch {
-			Babe::next_epoch()
-		}
-
-		fn submit_report_equivocation_unsigned_extrinsic(
-			_equivocation_proof: sp_consensus_babe::EquivocationProof<
-			<Block as BlockT>::Header,
-			>,
-			_key_owner_proof: sp_consensus_babe::OpaqueKeyOwnershipProof,
-		) -> Option<()> {
-			None
-		}
-
-		fn generate_key_ownership_proof(
-			_slot: sp_consensus_babe::Slot,
-			_authority_id: sp_consensus_babe::AuthorityId,
-		) -> Option<sp_consensus_babe::OpaqueKeyOwnershipProof> {
-			None
 		}
 	}
 

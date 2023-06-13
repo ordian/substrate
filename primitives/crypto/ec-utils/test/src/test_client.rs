@@ -103,7 +103,7 @@ pub(crate) fn get_test_client() -> Result<Client<Backend, EccExecutor, Block, Ru
 	let (test_client, _) =
 		<TestClientBuilder<Block, EccExecutor, Backend, GenesisParameters>>::with_backend(backend)
 			.set_keystore(keystore)
-			.set_execution_strategy(ExecutionStrategy::AlwaysWasm)
+			.set_execution_strategy(ExecutionStrategy::Both)
 			.build_with_executor::<RuntimeApi>(ecc_executor);
 	Ok(test_client)
 }
