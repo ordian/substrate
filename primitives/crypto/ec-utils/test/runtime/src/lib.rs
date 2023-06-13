@@ -61,8 +61,6 @@ use sp_version::RuntimeVersion;
 
 pub use sp_consensus_babe::{AllowedSlots, BabeEpochConfiguration, Slot};
 
-pub use pallet_balances::Call as BalancesCall;
-
 pub type AuraId = sp_consensus_aura::sr25519::AuthorityId;
 #[cfg(feature = "std")]
 pub use extrinsic::{ExtrinsicBuilder, Transfer};
@@ -100,7 +98,7 @@ pub fn wasm_binary_logging_disabled_unwrap() -> &'static [u8] {
 #[sp_version::runtime_version]
 pub const VERSION: RuntimeVersion = RuntimeVersion {
 	spec_name: create_runtime_str!("test"),
-	impl_name: create_runtime_str!("parity-test"),
+	impl_name: create_runtime_str!("parity-test-ecc-host-functions"),
 	authoring_version: 1,
 	spec_version: 2,
 	impl_version: 2,
@@ -117,15 +115,6 @@ fn version() -> RuntimeVersion {
 #[cfg(any(feature = "std", test))]
 pub fn native_version() -> NativeVersion {
 	NativeVersion { runtime_version: VERSION, can_author_with: Default::default() }
-}
-
-/// Transfer data extracted from Extrinsic containing `Balances::transfer_allow_death`.
-#[derive(Clone, PartialEq, Eq, Encode, Decode, RuntimeDebug, TypeInfo)]
-pub struct TransferData {
-	pub from: AccountId,
-	pub to: AccountId,
-	pub amount: Balance,
-	pub nonce: Index,
 }
 
 /// The address format for describing accounts.
@@ -166,8 +155,6 @@ pub type Balance = u64;
 decl_runtime_apis! {
 	#[api_version(2)]
 	pub trait TestAPI {
-		/// Return the balance of the given account id.
-		fn balance_of(id: AccountId) -> u64;
 		/// Tests a projective mul for g1 on bls12_381
 		fn test_bls12_381_g1_mul_projective_crypto(base: Vec<u8>, scalar: Vec<u8>) -> Vec<u8>;
 	}
@@ -252,7 +239,7 @@ construct_runtime!(
 		System: frame_system,
 		Babe: pallet_babe,
 		SubstrateTest: substrate_test_pallet::pallet,
-		Balances: pallet_balances,
+		// Balances: pallet_balances,
 	}
 );
 
@@ -320,35 +307,11 @@ impl frame_system::pallet::Config for Runtime {
 	type MaxConsumers = ConstU32<16>;
 }
 
-pub mod currency {
-	use crate::Balance;
-	const MILLICENTS: Balance = 1_000_000_000;
-	const CENTS: Balance = 1_000 * MILLICENTS; // assume this is worth about a cent.
-	pub const DOLLARS: Balance = 100 * CENTS;
-}
-
 parameter_types! {
-	pub const ExistentialDeposit: Balance = 1 * currency::DOLLARS;
 	// For weight estimation, we assume that the most locks on an individual account will be 50.
 	// This number may need to be adjusted in the future if this assumption no longer holds true.
 	pub const MaxLocks: u32 = 50;
 	pub const MaxReserves: u32 = 50;
-}
-
-impl pallet_balances::Config for Runtime {
-	type MaxLocks = MaxLocks;
-	type MaxReserves = MaxReserves;
-	type ReserveIdentifier = [u8; 8];
-	type Balance = Balance;
-	type DustRemoval = ();
-	type RuntimeEvent = RuntimeEvent;
-	type ExistentialDeposit = ExistentialDeposit;
-	type AccountStore = System;
-	type WeightInfo = pallet_balances::weights::SubstrateWeight<Runtime>;
-	type FreezeIdentifier = ();
-	type MaxFreezes = ();
-	type RuntimeHoldReason = RuntimeHoldReason;
-	type MaxHolds = ConstU32<1>;
 }
 
 impl substrate_test_pallet::Config for Runtime {}
@@ -458,10 +421,6 @@ impl_runtime_apis! {
 	}
 
 	impl self::TestAPI<Block> for Runtime {
-		fn balance_of(id: AccountId) -> u64 {
-			Balances::free_balance(id)
-		}
-
 		fn test_bls12_381_g1_mul_projective_crypto(base: Vec<u8>, scalar: Vec<u8>) -> Vec<u8> {
 			sp_crypto_ec_utils::elliptic_curves::bls12_381_mul_projective_g1(base, scalar)
 				.expect("Projective mul works for g1 in bls12_381")
@@ -517,18 +476,6 @@ impl_runtime_apis! {
 			_authority_id: sp_consensus_babe::AuthorityId,
 		) -> Option<sp_consensus_babe::OpaqueKeyOwnershipProof> {
 			None
-		}
-	}
-
-	impl sp_offchain::OffchainWorkerApi<Block> for Runtime {
-		fn offchain_worker(header: &<Block as BlockT>::Header) {
-			let ext = Extrinsic::new_unsigned(
-				substrate_test_pallet::pallet::Call::storage_change{
-					key:b"some_key".encode(),
-					value:Some(header.number.encode())
-				}.into(),
-			);
-			sp_io::offchain::submit_transaction(ext.encode()).unwrap();
 		}
 	}
 
@@ -661,16 +608,6 @@ mod tests {
 		let best_hash = client.chain_info().best_hash;
 
 		runtime_api.test_witness(best_hash, proof, root).unwrap();
-	}
-
-	pub fn new_test_ext() -> sp_io::TestExternalities {
-		genesismap::GenesisStorageBuilder::new(
-			vec![AccountKeyring::One.public().into(), AccountKeyring::Two.public().into()],
-			vec![AccountKeyring::One.into(), AccountKeyring::Two.into()],
-			1000 * currency::DOLLARS,
-		)
-		.build()
-		.into()
 	}
 
 	#[test]
