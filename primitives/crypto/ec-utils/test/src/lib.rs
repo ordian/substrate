@@ -18,10 +18,7 @@
 //! Integration tests for sp-crypto-ec-utils
 
 #[cfg(test)]
-mod utils;
+mod test_client;
 
 #[cfg(test)]
 mod bls12_381;
-
-#[cfg(test)]
-mod runtime;

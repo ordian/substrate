@@ -21,9 +21,10 @@ sp-runtime = { version = "24.0.0", path = "../../../runtime" }
 sp-std = { version = "8.0.0", default-features = false, path = "../../../std" }
 sp-io = { version = "23.0.0", default-features = false, path = "../../../io" }
 sp-state-machine = { version = "0.28.0", default-features = false, path = "../../../state-machine" }
+sp-storage = { version = "13.0.0", default-features = false, path = "../../../storage" }
 sp-version = { version = "22.0.0", path = "../../../version" }
 sp-wasm-interface = { version = "14.0.0", path = "../../../wasm-interface", default-features = false }
-substrate-test-runtime = { version = "2.0.0", path = "../../../../test-utils/runtime" }
+sp-crypto-ec-utils-test-runtime = { version = "2.0.0", path = "./runtime" }
 substrate-test-runtime-client = { version = "2.0.0", path = "../../../../test-utils/runtime/client" }
 ark-bls12-381 = { version = "0.4.0",features = [ "curve" ], default-features = false }
 ark-bls12-377 = { version = "0.4.0",features = [ "curve" ], default-features = false }
@@ -56,6 +57,7 @@ std = [
 	"sp-std/std",
     "sp-io/std",
 	"sp-state-machine/std",
+    "sp-storage/std",
     "sp-version/std",
     "ark-bls12-381/std",
     "ark-bls12-377/std",

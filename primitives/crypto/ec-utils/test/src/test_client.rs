@@ -16,10 +16,8 @@
 // limitations under the License.
 
 //! Integration tests for bls12_381
-use crate::{
-	runtime,
-	runtime::{Api, Block},
-};
+use sp_crypto_ec_utils_test_runtime as runtime;
+use sp_crypto_ec_utils_test_runtime::{RuntimeApi, Block, genesismap::GenesisStorageBuilder};
 use sc_client_api::execution_extensions::{ExecutionExtensions, ExecutionStrategies};
 use sc_executor::{
 	NativeElseWasmExecutor, NativeExecutionDispatch, NativeVersion, WasmExecutionMethod,
@@ -36,9 +34,30 @@ use std::sync::Arc;
 use substrate_test_client::TestClientBuilder;
 use substrate_test_runtime_client::{
 	client::{ClientConfig, LocalCallExecutor},
-	Backend, GenesisParameters,
 };
-use sp_api::ProvideRuntimeApi;
+use sp_storage::Storage;
+
+pub type Backend = substrate_test_client::Backend<Block>;
+
+/// Parameters of test-client builder with test-runtime.
+#[derive(Default)]
+pub struct GenesisParameters {
+	heap_pages_override: Option<u64>,
+	extra_storage: Storage,
+	wasm_code: Option<Vec<u8>>,
+}
+
+impl GenesisParameters {}
+
+impl substrate_test_client::GenesisInit for GenesisParameters {
+	fn genesis_storage(&self) -> Storage {
+		GenesisStorageBuilder::default()
+			.with_heap_pages(self.heap_pages_override)
+			.with_wasm_code(&self.wasm_code)
+			.with_extra_storage(self.extra_storage.clone())
+			.build()
+	}
+}
 
 // Our native executor instance, with HostFunctions extended by elliptic_curve host functions.
 #[derive(Clone)]
@@ -56,7 +75,7 @@ impl NativeExecutionDispatch for ExecutorDispatch {
 
 type EccExecutor = LocalCallExecutor<Block, Backend, NativeElseWasmExecutor<ExecutorDispatch>>;
 
-pub(crate) fn get_test_client() -> Result<Client<Backend, EccExecutor, Block, Api>, ApiError> {
+pub(crate) fn get_test_client() -> Result<Client<Backend, EccExecutor, Block, RuntimeApi>, ApiError> {
 	let keystore = Arc::new(MemoryKeystore::new());
 	let method = WasmExecutionMethod::Compiled {
 		instantiation_strategy: WasmtimeInstantiationStrategy::RecreateInstance,
@@ -75,13 +94,7 @@ pub(crate) fn get_test_client() -> Result<Client<Backend, EccExecutor, Block, Ap
 		NativeElseWasmExecutor::<ExecutorDispatch>::new_with_wasm_executor(executor);
 	let backend = Arc::new(sc_client_db::Backend::new_test(std::u32::MAX, std::u64::MAX));
 	let execution_extensions = ExecutionExtensions::new(
-		ExecutionStrategies {
-			syncing: ExecutionStrategy::AlwaysWasm,
-			importing: ExecutionStrategy::AlwaysWasm,
-			block_construction: ExecutionStrategy::AlwaysWasm,
-			offchain_worker: ExecutionStrategy::AlwaysWasm,
-			other: ExecutionStrategy::AlwaysWasm,
-		},
+		ExecutionStrategies::default(),
 		Some(keystore.clone()),
 		OffchainDb::factory_from_backend(&*backend.clone()),
 		Arc::new(executor.clone()),
@@ -92,6 +105,6 @@ pub(crate) fn get_test_client() -> Result<Client<Backend, EccExecutor, Block, Ap
 		<TestClientBuilder<Block, EccExecutor, Backend, GenesisParameters>>::with_backend(backend)
 			.set_keystore(keystore)
 			.set_execution_strategy(ExecutionStrategy::AlwaysWasm)
-			.build_with_executor::<Api>(ecc_executor);
+			.build_with_executor::<RuntimeApi>(ecc_executor);
 	Ok(test_client)
 }

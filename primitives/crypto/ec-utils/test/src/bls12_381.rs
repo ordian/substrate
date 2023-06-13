@@ -15,9 +15,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//! Integration tests for bls12_381
+//! Integration tests for bls12_381 elliptc curve
 
-use crate::{runtime::Api, utils::get_test_client};
+use crate::test_client::get_test_client;
+use sp_crypto_ec_utils_test_runtime::TestAPI;
 use ark_bls12_381::G1Projective;
 use ark_ec::Group;
 use ark_scale::hazmat::ArkScaleProjective;
@@ -29,26 +30,27 @@ type ArkScale<T> = ark_scale::ArkScale<T, HOST_CALL>;
 
 #[test]
 fn test_bls12_381_g1_mul_projective_in_runtime() {
+	// Get runtime client for testing
 	let test_client = get_test_client().expect("Test client builds");
 
+	// Compose test data
 	let base: ArkScaleProjective<G1Projective> = G1Projective::generator().into();
 	let scalar = vec![2u64];
 	let scalar: ArkScale<&[u64]> = (&scalar[..]).into();
 
 	// Call into the host function
-	let result = test_client;
-	// 	.runtime_api()
-	// 	.test_bls12_381_g1_mul_projective_crypto(
-	// 		test_client.chain_info().genesis_hash,
-	// 		base.encode(),
-	// 		scalar.encode(),
-	// 	)
-	// 	.expect("bls12_381_g1_mul_projective succesfull");
+	let result = test_client
+		.runtime_api()
+		.test_bls12_381_g1_mul_projective_crypto(
+			test_client.chain_info().genesis_hash,
+			base.encode(),
+			scalar.encode(),
+		)
+		.expect("bls12_381_g1_mul_projective succesfull");
 
-	// // Decode the result
-	// // ToDo: ArkScaleProjective decode panics with empty vec!!!
-	// let result = <ArkScaleProjective<G1Projective> as Decode>::decode(&mut result.as_slice())
-	// 	.expect("Decodeing result works");
+	// Decode the result
+	let result = <ArkScaleProjective<G1Projective> as Decode>::decode(&mut result.as_slice())
+		.expect("Decodeing result works");
 
-	// assert_eq!(G1Projective::generator().mul_bigint(&[2u64]), result.0);
+	assert_eq!(G1Projective::generator().mul_bigint(&[2u64]), result.0);
 }
