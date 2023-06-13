@@ -14,12 +14,14 @@ targets = ["x86_64-unknown-linux-gnu"]
 
 [dependencies]
 sp-api = { version = "4.0.0-dev", path = "../../../api" }
+sp-consensus-grandpa = { version = "4.0.0-dev", default-features = false, path = "../../../consensus/grandpa" }
 sp-crypto-ec-utils = { version = "0.4.0", default-features = false, path = "../" }
 sp-keystore = { version = "0.27.0", default-features = false, path = "../../../keystore" }
 sp-runtime = { version = "24.0.0", path = "../../../runtime" }
 sp-std = { version = "8.0.0", default-features = false, path = "../../../std" }
 sp-io = { version = "23.0.0", default-features = false, path = "../../../io" }
 sp-state-machine = { version = "0.28.0", default-features = false, path = "../../../state-machine" }
+sp-version = { version = "22.0.0", path = "../../../version" }
 sp-wasm-interface = { version = "14.0.0", path = "../../../wasm-interface", default-features = false }
 substrate-test-runtime = { version = "2.0.0", path = "../../../../test-utils/runtime" }
 substrate-test-runtime-client = { version = "2.0.0", path = "../../../../test-utils/runtime/client" }
@@ -39,17 +41,22 @@ sc-client-api = { version = "4.0.0-dev", path = "../../../../client/api" }
 sc-client-db = { version = "0.10.0-dev", path = "../../../../client/db" }
 sc-offchain = { version = "4.0.0-dev", path = "../../../../client/offchain" }
 substrate-test-client = { version = "2.0.0", path = "../../../../test-utils/client" }
+frame-system = { version = "4.0.0-dev", default-features = false, path = "../../../../frame/system" }
+frame-support = { version = "4.0.0-dev", default-features = false, path = "../../../../frame/support" }
+scale-info = { version = "2.5.0", default-features = false, features = ["derive"] }
 
 [features]
 default = [ "std" ]
 std = [
 	"sp-api/std",
+    "sp-consensus-grandpa/std",
 	"sp-crypto-ec-utils/std",
 	"sp-keystore/std",
 	"sp-runtime/std",
 	"sp-std/std",
     "sp-io/std",
 	"sp-state-machine/std",
+    "sp-version/std",
     "ark-bls12-381/std",
     "ark-bls12-377/std",
     "ark-bw6-761/std",

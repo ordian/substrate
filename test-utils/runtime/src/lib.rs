@@ -587,7 +587,9 @@ impl_runtime_apis! {
 		}
 
 		fn test_bls12_381_g1_mul_projective_crypto(base: Vec<u8>, scalar: Vec<u8>) -> Vec<u8> {
-			test_bls12_381_g1_mul_projective_crypto(base, scalar)
+			let result = sp_crypto_ec_utils::elliptic_curves::bls12_381_mul_projective_g1(base, scalar)
+		.expect("Projective mul works for g1 in bls12_381");
+	result
 		}
 
 		fn test_storage() {
@@ -761,12 +763,6 @@ fn test_ecdsa_crypto() -> (ecdsa::AppSignature, ecdsa::AppPublic) {
 
 	assert!(public0.verify(&"ecdsa", &signature));
 	(signature, public0)
-}
-
-fn test_bls12_381_g1_mul_projective_crypto(base: Vec<u8>, scalar: Vec<u8>) -> Vec<u8> {
-	let result = sp_crypto_ec_utils::elliptic_curves::bls12_381_mul_projective_g1(base, scalar)
-		.expect("Projective mul works for g1 in bls12_381");
-	result
 }
 
 fn test_read_storage() {

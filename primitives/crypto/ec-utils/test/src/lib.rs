@@ -22,3 +22,6 @@ mod utils;
 
 #[cfg(test)]
 mod bls12_381;
+
+#[cfg(test)]
+mod runtime;

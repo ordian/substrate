@@ -16,7 +16,10 @@
 // limitations under the License.
 
 //! Integration tests for bls12_381
-
+use crate::{
+	runtime,
+	runtime::{Api, Block},
+};
 use sc_client_api::execution_extensions::{ExecutionExtensions, ExecutionStrategies};
 use sc_executor::{
 	NativeElseWasmExecutor, NativeExecutionDispatch, NativeVersion, WasmExecutionMethod,
@@ -31,11 +34,11 @@ use sp_state_machine::ExecutionStrategy;
 use sp_wasm_interface::ExtendedHostFunctions;
 use std::sync::Arc;
 use substrate_test_client::TestClientBuilder;
-use substrate_test_runtime::{Block, RuntimeApi};
 use substrate_test_runtime_client::{
 	client::{ClientConfig, LocalCallExecutor},
-	runtime, Backend, GenesisParameters,
+	Backend, GenesisParameters,
 };
+use sp_api::ProvideRuntimeApi;
 
 // Our native executor instance, with HostFunctions extended by elliptic_curve host functions.
 #[derive(Clone)]
@@ -53,8 +56,7 @@ impl NativeExecutionDispatch for ExecutorDispatch {
 
 type EccExecutor = LocalCallExecutor<Block, Backend, NativeElseWasmExecutor<ExecutorDispatch>>;
 
-pub(crate) fn get_test_client() -> Result<Client<Backend, EccExecutor, Block, RuntimeApi>, ApiError>
-{
+pub(crate) fn get_test_client() -> Result<Client<Backend, EccExecutor, Block, Api>, ApiError> {
 	let keystore = Arc::new(MemoryKeystore::new());
 	let method = WasmExecutionMethod::Compiled {
 		instantiation_strategy: WasmtimeInstantiationStrategy::RecreateInstance,
@@ -90,6 +92,6 @@ pub(crate) fn get_test_client() -> Result<Client<Backend, EccExecutor, Block, Ru
 		<TestClientBuilder<Block, EccExecutor, Backend, GenesisParameters>>::with_backend(backend)
 			.set_keystore(keystore)
 			.set_execution_strategy(ExecutionStrategy::AlwaysWasm)
-			.build_with_executor::<RuntimeApi>(ecc_executor);
+			.build_with_executor::<Api>(ecc_executor);
 	Ok(test_client)
 }
