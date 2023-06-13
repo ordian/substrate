@@ -16,8 +16,6 @@
 // limitations under the License.
 
 //! Integration tests for bls12_381
-use sp_crypto_ec_utils_test_runtime as runtime;
-use sp_crypto_ec_utils_test_runtime::{RuntimeApi, Block, genesismap::GenesisStorageBuilder};
 use sc_client_api::execution_extensions::{ExecutionExtensions, ExecutionStrategies};
 use sc_executor::{
 	NativeElseWasmExecutor, NativeExecutionDispatch, NativeVersion, WasmExecutionMethod,
@@ -27,15 +25,15 @@ use sc_offchain::OffchainDb;
 use sc_service::client::Client;
 use sp_api::ApiError;
 use sp_crypto_ec_utils::elliptic_curves;
+use sp_crypto_ec_utils_test_runtime as runtime;
+use sp_crypto_ec_utils_test_runtime::{genesismap::GenesisStorageBuilder, Block, RuntimeApi};
 use sp_keystore::testing::MemoryKeystore;
 use sp_state_machine::ExecutionStrategy;
+use sp_storage::Storage;
 use sp_wasm_interface::ExtendedHostFunctions;
 use std::sync::Arc;
 use substrate_test_client::TestClientBuilder;
-use substrate_test_runtime_client::{
-	client::{ClientConfig, LocalCallExecutor},
-};
-use sp_storage::Storage;
+use substrate_test_runtime_client::client::{ClientConfig, LocalCallExecutor};
 
 pub type Backend = substrate_test_client::Backend<Block>;
 
@@ -75,7 +73,8 @@ impl NativeExecutionDispatch for ExecutorDispatch {
 
 type EccExecutor = LocalCallExecutor<Block, Backend, NativeElseWasmExecutor<ExecutorDispatch>>;
 
-pub(crate) fn get_test_client() -> Result<Client<Backend, EccExecutor, Block, RuntimeApi>, ApiError> {
+pub(crate) fn get_test_client() -> Result<Client<Backend, EccExecutor, Block, RuntimeApi>, ApiError>
+{
 	let keystore = Arc::new(MemoryKeystore::new());
 	let method = WasmExecutionMethod::Compiled {
 		instantiation_strategy: WasmtimeInstantiationStrategy::RecreateInstance,

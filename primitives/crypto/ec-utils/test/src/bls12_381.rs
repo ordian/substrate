@@ -18,12 +18,12 @@
 //! Integration tests for bls12_381 elliptc curve
 
 use crate::test_client::get_test_client;
-use sp_crypto_ec_utils_test_runtime::TestAPI;
 use ark_bls12_381::G1Projective;
 use ark_ec::Group;
 use ark_scale::hazmat::ArkScaleProjective;
 use codec::{Decode, Encode};
 use sp_api::ProvideRuntimeApi;
+use sp_crypto_ec_utils_test_runtime::TestAPI;
 
 const HOST_CALL: ark_scale::Usage = ark_scale::HOST_CALL;
 type ArkScale<T> = ark_scale::ArkScale<T, HOST_CALL>;

@@ -15,7 +15,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//! Integration tests for sp-crypto-ec-utils
+//! Runtime tests for sp-crypto-ec-utils
 
 #[cfg(test)]
 mod test_client;
