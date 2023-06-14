@@ -23,7 +23,6 @@
 pub use substrate_test_runtime::extrinsic;
 #[cfg(feature = "std")]
 pub use substrate_test_runtime::genesismap;
-use substrate_test_runtime::SubstrateTest;
 
 use frame_support::{
 	construct_runtime,
@@ -49,7 +48,7 @@ pub use sp_core::hash::H256;
 use sp_inherents::{CheckInherentsResult, InherentData};
 use sp_runtime::{
 	create_runtime_str, impl_opaque_keys,
-	traits::{BlakeTwo256, Block as BlockT, NumberFor, Verify},
+	traits::{BlakeTwo256, Block as BlockT, Verify},
 	ApplyExtrinsicResult, Perbill,
 };
 #[cfg(any(feature = "std", test))]
@@ -305,11 +304,11 @@ impl_runtime_apis! {
 		}
 	}
 
-	impl frame_system_rpc_runtime_api::AccountNonceApi<Block, AccountId, Index> for Runtime {
-		fn account_nonce(account: AccountId) -> Index {
-			System::account_nonce(account)
-		}
-	}
+	// impl frame_system_rpc_runtime_api::AccountNonceApi<Block, AccountId, Index> for Runtime {
+	// 	fn account_nonce(account: AccountId) -> Index {
+	// 		System::account_nonce(account)
+	// 	}
+	// }
 
 	impl self::TestAPI<Block> for Runtime {
 		fn test_bls12_381_g1_mul_projective_crypto(base: Vec<u8>, scalar: Vec<u8>) -> Vec<u8> {
@@ -318,15 +317,15 @@ impl_runtime_apis! {
 		}
 	}
 
-	impl sp_consensus_aura::AuraApi<Block, AuraId> for Runtime {
-		fn slot_duration() -> sp_consensus_aura::SlotDuration {
-			sp_consensus_aura::SlotDuration::from_millis(1000)
-		}
+	// impl sp_consensus_aura::AuraApi<Block, AuraId> for Runtime {
+	// 	fn slot_duration() -> sp_consensus_aura::SlotDuration {
+	// 		sp_consensus_aura::SlotDuration::from_millis(1000)
+	// 	}
 
-		fn authorities() -> Vec<AuraId> {
-			SubstrateTest::authorities().into_iter().map(|auth| AuraId::from(auth)).collect()
-		}
-	}
+	// 	fn authorities() -> Vec<AuraId> {
+	// 		SubstrateTest::authorities().into_iter().map(|auth| AuraId::from(auth)).collect()
+	// 	}
+	// }
 
 	impl sp_session::SessionKeys<Block> for Runtime {
 		fn generate_session_keys(_: Option<Vec<u8>>) -> Vec<u8> {
@@ -337,33 +336,6 @@ impl_runtime_apis! {
 			encoded: Vec<u8>,
 		) -> Option<Vec<(Vec<u8>, sp_core::crypto::KeyTypeId)>> {
 			SessionKeys::decode_into_raw_public_keys(&encoded)
-		}
-	}
-
-	impl sp_consensus_grandpa::GrandpaApi<Block> for Runtime {
-		fn grandpa_authorities() -> sp_consensus_grandpa::AuthorityList {
-			Vec::new()
-		}
-
-		fn current_set_id() -> sp_consensus_grandpa::SetId {
-			0
-		}
-
-		fn submit_report_equivocation_unsigned_extrinsic(
-			_equivocation_proof: sp_consensus_grandpa::EquivocationProof<
-			<Block as BlockT>::Hash,
-			NumberFor<Block>,
-			>,
-			_key_owner_proof: sp_consensus_grandpa::OpaqueKeyOwnershipProof,
-		) -> Option<()> {
-			None
-		}
-
-		fn generate_key_ownership_proof(
-			_set_id: sp_consensus_grandpa::SetId,
-			_authority_id: sp_consensus_grandpa::AuthorityId,
-		) -> Option<sp_consensus_grandpa::OpaqueKeyOwnershipProof> {
-			None
 		}
 	}
 }
