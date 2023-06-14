@@ -48,12 +48,13 @@ pub use sp_core::hash::H256;
 use sp_inherents::{CheckInherentsResult, InherentData};
 use sp_runtime::{
 	create_runtime_str, impl_opaque_keys,
-	traits::{BlakeTwo256, Block as BlockT, Verify},
+	traits::{Block as BlockT, Verify},
 	ApplyExtrinsicResult, Perbill,
 };
 #[cfg(any(feature = "std", test))]
 use sp_version::NativeVersion;
 use sp_version::RuntimeVersion;
+pub use substrate_test_runtime::{BlockNumber, Digest, DigestItem, Hash, Hashing, Index};
 
 pub type AuraId = sp_consensus_aura::sr25519::AuthorityId;
 #[cfg(feature = "std")]
@@ -127,18 +128,18 @@ pub type Extrinsic =
 
 /// An identifier for an account on this system.
 pub type AccountId = <Signature as Verify>::Signer;
-/// A simple hash type for all our hashing.
-pub type Hash = H256;
-/// The hashing algorithm used.
-pub type Hashing = BlakeTwo256;
-/// The block number type used in this runtime.
-pub type BlockNumber = u64;
-/// Index of a transaction.
-pub type Index = u64;
-/// The item of a block digest.
-pub type DigestItem = sp_runtime::generic::DigestItem;
-/// The digest of a block.
-pub type Digest = sp_runtime::generic::Digest;
+// /// A simple hash type for all our hashing.
+// pub type Hash = H256;
+// /// The hashing algorithm used.
+// pub type Hashing = BlakeTwo256;
+// /// The block number type used in this runtime.
+// pub type BlockNumber = u64;
+// /// Index of a transaction.
+// pub type Index = u64;
+// /// The item of a block digest.
+// pub type DigestItem = sp_runtime::generic::DigestItem;
+// /// The digest of a block.
+// pub type Digest = sp_runtime::generic::Digest;
 /// A test block.
 pub type Block = sp_runtime::generic::Block<Header, Extrinsic>;
 /// A test block's header.
