@@ -23,7 +23,7 @@ use ark_ec::Group;
 use ark_scale::hazmat::ArkScaleProjective;
 use codec::{Decode, Encode};
 use sp_api::ProvideRuntimeApi;
-use sp_crypto_ec_utils_test_runtime::TestAPI;
+use sp_crypto_ec_utils_test_runtime::{EccError, TestAPI};
 
 const HOST_CALL: ark_scale::Usage = ark_scale::HOST_CALL;
 type ArkScale<T> = ark_scale::ArkScale<T, HOST_CALL>;
@@ -46,11 +46,12 @@ fn test_bls12_381_g1_mul_projective_in_runtime() {
 			base.encode(),
 			scalar.encode(),
 		)
-		.expect("bls12_381_g1_mul_projective succesfull");
+		.expect("Runtime call of bls12_381_g1_mul_projective succesfull")
+		.expect("Computation of mul for g1 on bls12_381 in runtime succesfull");
 
 	// Decode the result
 	let result = <ArkScaleProjective<G1Projective> as Decode>::decode(&mut result.as_slice())
-		.expect("Decodeing result works");
+		.expect("Decoding result works for bls12_381_g1_mul_projective works");
 
 	assert_eq!(G1Projective::generator().mul_bigint(&[2u64]), result.0);
 }
