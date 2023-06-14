@@ -12,4 +12,4 @@ pub enum EccError {
 	Bls12_381G1Projective,
 }
 
-impl sp_blockchain::Error for EccError {}
+// impl sp_blockchain::Error for EccError {}

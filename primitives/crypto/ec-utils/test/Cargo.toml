@@ -14,58 +14,39 @@ targets = ["x86_64-unknown-linux-gnu"]
 
 [dependencies]
 sp-api = { version = "4.0.0-dev", path = "../../../api" }
-sp-consensus-grandpa = { version = "4.0.0-dev", default-features = false, path = "../../../consensus/grandpa" }
-sp-crypto-ec-utils = { version = "0.4.0", default-features = false, path = "../" }
-sp-keystore = { version = "0.27.0", default-features = false, path = "../../../keystore" }
+sp-consensus-grandpa = { version = "4.0.0-dev",  path = "../../../consensus/grandpa" }
+sp-crypto-ec-utils = { version = "0.4.0",  path = "../" }
+sp-keystore = { version = "0.27.0",  path = "../../../keystore" }
 sp-runtime = { version = "24.0.0", path = "../../../runtime" }
-sp-std = { version = "8.0.0", default-features = false, path = "../../../std" }
-sp-io = { version = "23.0.0", default-features = false, path = "../../../io" }
-sp-state-machine = { version = "0.28.0", default-features = false, path = "../../../state-machine" }
-sp-storage = { version = "13.0.0", default-features = false, path = "../../../storage" }
+sp-std = { version = "8.0.0",  path = "../../../std" }
+sp-io = { version = "23.0.0",  path = "../../../io" }
+sp-state-machine = { version = "0.28.0",  path = "../../../state-machine" }
+sp-storage = { version = "13.0.0",  path = "../../../storage" }
 sp-version = { version = "22.0.0", path = "../../../version" }
-sp-wasm-interface = { version = "14.0.0", path = "../../../wasm-interface", default-features = false }
+sp-wasm-interface = { version = "14.0.0", path = "../../../wasm-interface" }
 sp-crypto-ec-utils-test-runtime = { version = "2.0.0", path = "./runtime" }
 substrate-test-runtime-client = { version = "2.0.0", path = "../../../../test-utils/runtime/client" }
-ark-bls12-381 = { version = "0.4.0",features = [ "curve" ], default-features = false }
-ark-bls12-377 = { version = "0.4.0",features = [ "curve" ], default-features = false }
-ark-bw6-761 = { version = "0.4.0",default-features = false }
-ark-ed-on-bls12-381-bandersnatch = { version = "0.4.0", default-features = false }
-ark-ed-on-bls12-377 = { version = "0.4.0",default-features = false }
-ark-ec = { version = "0.4.0",default-features = false }
-ark-scale = { version = "0.0.3", features = ["hazmat"], default-features = false }
-codec = { package = "parity-scale-codec", version = "3.5.0", default-features = false }
+ark-bls12-381 = { version = "0.4.0",features = [ "curve" ] }
+ark-bls12-377 = { version = "0.4.0",features = [ "curve" ] }
+ark-bw6-761 = { version = "0.4.0" }
+ark-ed-on-bls12-381-bandersnatch = { version = "0.4.0" }
+ark-ed-on-bls12-377 = { version = "0.4.0" }
+ark-ec = { version = "0.4.0" }
+ark-scale = { version = "0.0.3", features = ["hazmat"] }
+codec = { package = "parity-scale-codec", version = "3.5.0" }
 sc-executor = { version = "0.10.0-dev", path = "../../../../client/executor" }
-sc-service = { version = "0.10.0-dev", default-features = false, features = [
+sc-service = { version = "0.10.0-dev",  features = [
 	"test-helpers",
 ], path = "../../../../client/service" }
 sc-client-api = { version = "4.0.0-dev", path = "../../../../client/api" }
 sc-client-db = { version = "0.10.0-dev", path = "../../../../client/db" }
 sc-offchain = { version = "4.0.0-dev", path = "../../../../client/offchain" }
 substrate-test-client = { version = "2.0.0", path = "../../../../test-utils/client" }
-frame-system = { version = "4.0.0-dev", default-features = false, path = "../../../../frame/system" }
-frame-support = { version = "4.0.0-dev", default-features = false, path = "../../../../frame/support" }
-scale-info = { version = "2.5.0", default-features = false, features = ["derive"] }
+frame-system = { version = "4.0.0-dev",  path = "../../../../frame/system" }
+frame-support = { version = "4.0.0-dev",  path = "../../../../frame/support" }
+scale-info = { version = "2.5.0",  features = ["derive"] }
 
 [features]
-default = [ "std" ]
+default = [ ]
 std = [
-	"sp-api/std",
-    "sp-consensus-grandpa/std",
-	"sp-crypto-ec-utils/std",
-	"sp-keystore/std",
-	"sp-runtime/std",
-	"sp-std/std",
-    "sp-io/std",
-	"sp-state-machine/std",
-    "sp-storage/std",
-    "sp-version/std",
-    "sp-wasm-interface/std",
-    "ark-bls12-381/std",
-    "ark-bls12-377/std",
-    "ark-bw6-761/std",
-    "ark-ed-on-bls12-381-bandersnatch/std",
-    "ark-ed-on-bls12-377/std",
-    "ark-ec/std",
-    "ark-scale/std",
-    "codec/std",
 ]

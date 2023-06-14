@@ -25,8 +25,8 @@ pub use substrate_test_runtime::extrinsic;
 #[cfg(feature = "std")]
 pub use substrate_test_runtime::genesismap;
 
-pub use crate::errors::EccError;
-use frame_support::{construct_runtime, decl_error, parameter_types, traits::ConstU32};
+pub use errors::EccError;
+use frame_support::{construct_runtime, traits::ConstU32};
 use frame_system::{CheckNonce, CheckWeight};
 use sp_api::{decl_runtime_apis, impl_runtime_apis};
 pub use sp_core::hash::H256;
@@ -77,7 +77,7 @@ decl_runtime_apis! {
 	#[api_version(2)]
 	pub trait TestAPI {
 		/// Tests a projective mul for g1 on bls12_381
-		fn test_bls12_381_g1_mul_projective_crypto(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, ApiError>;
+		fn test_bls12_381_g1_mul_projective_crypto(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError>;
 	}
 }
 
@@ -134,9 +134,9 @@ impl_runtime_apis! {
 	}
 
 	impl self::TestAPI<Block> for Runtime {
-		fn test_bls12_381_g1_mul_projective_crypto(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, errors:EccError> {
-			sp_crypto_ec_utils::elliptic_curves::bls12_381_mul_projective_g1(base, scalar);
-			.map_err(|_| Err(EccError::Bls12_381G1Projective))
+		fn test_bls12_381_g1_mul_projective_crypto(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError> {
+			sp_crypto_ec_utils::elliptic_curves::bls12_381_mul_projective_g1(base, scalar)
+			.map_err(|_| EccError::Bls12_381G1Projective)
 		}
 	}
 }
