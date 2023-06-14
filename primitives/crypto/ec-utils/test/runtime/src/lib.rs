@@ -24,53 +24,35 @@ pub use substrate_test_runtime::extrinsic;
 #[cfg(feature = "std")]
 pub use substrate_test_runtime::genesismap;
 
-use frame_support::{construct_runtime, parameter_types, traits::ConstU32};
+use frame_support::{construct_runtime, traits::ConstU32};
 use frame_system::{CheckNonce, CheckWeight};
-use sp_std::prelude::*;
-
 use sp_api::{decl_runtime_apis, impl_runtime_apis};
 pub use sp_core::hash::H256;
 use sp_runtime::traits::Block as BlockT;
-#[cfg(any(feature = "std", test))]
-use sp_version::NativeVersion;
+use sp_std::prelude::*;
 use sp_version::RuntimeVersion;
 pub use substrate_test_runtime::{
 	AccountId, Address, Balance, BlockNumber, Digest, DigestItem, Hash, Hashing, Header, Index,
 	Signature, VERSION,
 };
 
-pub type AuraId = sp_consensus_aura::sr25519::AuthorityId;
 #[cfg(feature = "std")]
 pub use extrinsic::{ExtrinsicBuilder, Transfer};
-
-const LOG_TARGET: &str = "sp-crypto-ec-utils-test-runtime";
 
 // Include the WASM binary
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
 #[cfg(feature = "std")]
-pub mod wasm_binary_logging_disabled {
-	include!(concat!(env!("OUT_DIR"), "/wasm_binary_logging_disabled.rs"));
-}
+pub use substrate_test_runtime::wasm_binary_logging_disabled;
 
 /// Wasm binary unwrapped. If built with `SKIP_WASM_BUILD`, the function panics.
 #[cfg(feature = "std")]
-pub fn wasm_binary_unwrap() -> &'static [u8] {
-	WASM_BINARY.expect(
-		"Development wasm binary is not available. Testing is only supported with the flag \
-		 disabled.",
-	)
-}
+pub use substrate_test_runtime::wasm_binary_unwrap;
 
 /// Wasm binary unwrapped. If built with `SKIP_WASM_BUILD`, the function panics.
 #[cfg(feature = "std")]
-pub fn wasm_binary_logging_disabled_unwrap() -> &'static [u8] {
-	wasm_binary_logging_disabled::WASM_BINARY.expect(
-		"Development wasm binary is not available. Testing is only supported with the flag \
-		 disabled.",
-	)
-}
+pub use substrate_test_runtime::wasm_binary_logging_disabled_unwrap;
 
 fn version() -> RuntimeVersion {
 	VERSION
@@ -78,13 +60,7 @@ fn version() -> RuntimeVersion {
 
 /// Native version.
 #[cfg(any(feature = "std", test))]
-pub fn native_version() -> NativeVersion {
-	NativeVersion { runtime_version: VERSION, can_author_with: Default::default() }
-}
-
-#[cfg(feature = "std")]
-pub use substrate_test_runtime::Pair;
-
+pub use substrate_test_runtime::native_version;
 /// The SignedExtension to the basic transaction logic.
 pub type SignedExtra = (CheckNonce<Runtime>, CheckWeight<Runtime>);
 /// The payload being signed in transactions.
@@ -103,14 +79,6 @@ decl_runtime_apis! {
 	}
 }
 
-pub type Executive = frame_executive::Executive<
-	Runtime,
-	Block,
-	frame_system::ChainContext<Runtime>,
-	Runtime,
-	AllPalletsWithSystem,
->;
-
 construct_runtime!(
 	pub enum Runtime where
 		Block = Block,
@@ -120,10 +88,6 @@ construct_runtime!(
 		System: frame_system,
 	}
 );
-
-parameter_types! {
-	pub const Version: RuntimeVersion = VERSION;
-}
 
 impl frame_system::pallet::Config for Runtime {
 	type BaseCallFilter = frame_support::traits::Everything;
@@ -143,7 +107,7 @@ impl frame_system::pallet::Config for Runtime {
 	type DbWeight = ();
 	type Version = ();
 	type PalletInfo = PalletInfo;
-	type AccountData = pallet_balances::AccountData<Balance>;
+	type AccountData = ();
 	type OnNewAccount = ();
 	type OnKilledAccount = ();
 	type SystemWeightInfo = ();
@@ -158,14 +122,12 @@ impl_runtime_apis! {
 			version()
 		}
 
-		fn execute_block(block: Block) {
-			log::trace!(target: LOG_TARGET, "execute_block: {block:#?}");
-			Executive::execute_block(block);
+		fn execute_block(_block: Block) {
+			unimplemented!()
 		}
 
-		fn initialize_block(header: &<Block as BlockT>::Header) {
-			log::trace!(target: LOG_TARGET, "initialize_block: {header:#?}");
-			Executive::initialize_block(header);
+		fn initialize_block(_header: &<Block as BlockT>::Header) {
+			unimplemented!()
 		}
 	}
 
