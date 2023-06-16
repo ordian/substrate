@@ -41,7 +41,7 @@ fn test_bls12_381_g1_mul_projective_in_runtime() {
 	// Call into the host function
 	let result = test_client
 		.runtime_api()
-		.test_bls12_381_g1_mul_projective_crypto(
+		.bls12_381_mul_projective_g1_runtime(
 			test_client.chain_info().genesis_hash,
 			base.encode(),
 			scalar.encode(),

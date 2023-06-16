@@ -19,9 +19,6 @@
 //! multi_miller_loop, final_exponentiation, msm's and projective
 //! multiplications by host function calls
 
-use crate::utils::{
-	final_exponentiation_generic, msm_sw_generic, mul_projective_generic, multi_miller_loop_generic,
-};
 use ark_bls12_381::{g1, g2, Bls12_381};
 use sp_std::vec::Vec;
 

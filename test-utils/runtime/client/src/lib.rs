@@ -25,7 +25,6 @@ mod block_builder_ext;
 
 pub use sc_consensus::LongestChain;
 use std::sync::Arc;
-pub use substrate_test_client::*;
 pub use substrate_test_runtime as runtime;
 
 pub use self::block_builder_ext::BlockBuilderExt;

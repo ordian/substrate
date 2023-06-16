@@ -47,6 +47,7 @@ pallet-babe = { version = "4.0.0-dev", default-features = false, path = "../../.
 pallet-timestamp = { version = "4.0.0-dev", default-features = false, path = "../../../../../frame/timestamp" }
 scale-info = { version = "2.5.0", default-features = false, features = ["derive", "serde"] }
 substrate-test-runtime = { version = "2.0.0", default-features = false, path = "../../../../../test-utils/runtime" }
+substrate-test-runtime-client = { version = "2.0.0", default-features = false, path = "../../../../../test-utils/runtime/client" }
 
 array-bytes = { version = "6.1", default-features = false, optional = true }
 log = { version = "0.4.17", default-features = false }
