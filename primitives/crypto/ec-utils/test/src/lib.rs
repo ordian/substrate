@@ -18,7 +18,19 @@
 //! Runtime tests for sp-crypto-ec-utils
 
 #[cfg(test)]
-mod test_client;
+mod bls12_381;
 
 #[cfg(test)]
-mod bls12_381;
+mod bls12_377;
+
+#[cfg(test)]
+mod bw6_761;
+
+#[cfg(test)]
+mod ed_on_bls12_377;
+
+#[cfg(test)]
+mod ed_on_bls12_381_bandersnatch;
+
+#[cfg(test)]
+mod test_client;

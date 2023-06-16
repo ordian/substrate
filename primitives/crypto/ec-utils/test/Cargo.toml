@@ -32,7 +32,6 @@ ark-bw6-761 = { version = "0.4.0" }
 ark-ed-on-bls12-381-bandersnatch = { version = "0.4.0" }
 ark-ed-on-bls12-377 = { version = "0.4.0" }
 ark-ec = { version = "0.4.0" }
-ark-scale = { version = "0.0.3", features = ["hazmat"] }
 codec = { package = "parity-scale-codec", version = "3.5.0" }
 sc-executor = { version = "0.10.0-dev", path = "../../../../client/executor" }
 sc-service = { version = "0.10.0-dev",  features = [
