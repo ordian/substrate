@@ -15,19 +15,42 @@ targets = ["x86_64-unknown-linux-gnu"]
 
 [dependencies]
 sp-api = { version = "4.0.0-dev", default-features = false, path = "../../../../api" }
-sp-core = { version = "21.0.0", default-features = false, path = "../../../../core" }
+sp-application-crypto = { version = "23.0.0", default-features = false, path = "../../../../application-crypto" }
+sp-block-builder = { version = "4.0.0-dev", default-features = false, path = "../../../../block-builder" }
+sp-consensus-aura = { version = "0.10.0-dev", default-features = false, path = "../../../../consensus/aura" }
+sp-consensus-grandpa = { version = "4.0.0-dev", default-features = false, path = "../../../../consensus/grandpa" }
+sp-consensus-babe = { version = "0.10.0-dev", default-features = false, path = "../../../../consensus/babe" }
+sp-consensus-beefy = { version = "4.0.0-dev", default-features = false, path = "../../../../consensus/beefy" }
+sp-core = { version = "21.0.0", default-features = false, path = "../../../../core", features = ["serde"] }
 sp-crypto-ec-utils = { version = "0.4.0", default-features = false, path = "../../" }
+sp-externalities = { version = "0.19.0", default-features = false, path = "../../../../externalities" }
+sp-inherents = { version = "4.0.0-dev", default-features = false, path = "../../../../inherents" }
 sp-keyring = { version = "24.0.0", default-features = false, optional = true, path = "../../../../keyring" }
-sp-runtime = { version = "24.0.0", default-features = false, path = "../../../../runtime" }
+sp-offchain = { version = "4.0.0-dev", default-features = false, path = "../../../../offchain" }
+sp-runtime = { version = "24.0.0", default-features = false, path = "../../../../runtime", features = ["serde"] }
+sp-session = { version = "4.0.0-dev", default-features = false, path = "../../../../session" }
 sp-std = { version = "8.0.0", default-features = false, path = "../../../../std" }
+sp-io = { version = "23.0.0", default-features = false, path = "../../../../io" }
+sp-state-machine = { version = "0.28.0", default-features = false, path = "../../../../state-machine" }
+sp-transaction-pool = { version = "4.0.0-dev", default-features = false, path = "../../../../transaction-pool" }
+sp-trie = { version = "22.0.0", default-features = false, path = "../../../../trie" }
 sp-version = { version = "22.0.0", default-features = false, path = "../../../../version" }
-codec = { package = "parity-scale-codec", default-features = false, version = "3.5.0", features = ["derive", "max-encoded-len"] }
+sp-wasm-interface = { version = "14.0.0", default-features = false, path = "../../../../wasm-interface" }
+pallet-balances = { version = "4.0.0-dev", default-features = false, path = "../../../../../frame/balances" }
+trie-db = { version = "0.27.0", default-features = false }
+codec = { package = "parity-scale-codec", default-features = false, version = "3.5.0" }
+frame-executive = { version = "4.0.0-dev", default-features = false, path = "../../../../../frame/executive" }
 frame-system = { version = "4.0.0-dev", default-features = false, path = "../../../../../frame/system" }
+frame-system-rpc-runtime-api = { version = "4.0.0-dev", default-features = false, path = "../../../../../frame/system/rpc/runtime-api" }
 frame-support = { version = "4.0.0-dev", default-features = false, path = "../../../../../frame/support" }
 pallet-babe = { version = "4.0.0-dev", default-features = false, path = "../../../../../frame/babe" }
-scale-info = { version = "2.5.0", default-features = false, features = ["derive"] }
+pallet-timestamp = { version = "4.0.0-dev", default-features = false, path = "../../../../../frame/timestamp" }
+scale-info = { version = "2.5.0", default-features = false, features = ["derive", "serde"] }
 substrate-test-runtime = { version = "2.0.0", default-features = false, path = "../../../../../test-utils/runtime" }
-serde = { version = "1.0.163", default-features = false, optional = true, features = ["derive"] }
+
+array-bytes = { version = "6.1", default-features = false, optional = true }
+log = { version = "0.4.17", default-features = false }
+serde = { version = "1.0.163", optional = true, features = ["derive"] }
 
 [dev-dependencies]
 futures = "0.3.21"
@@ -38,27 +61,49 @@ substrate-test-runtime-client = { version = "2.0.0", path = "../../../../../test
 sp-tracing = { version = "10.0.0", path = "../../../../tracing" }
 
 [build-dependencies]
-substrate-wasm-builder = { version = "5.0.0-dev", path = "../../../../../utils/wasm-builder", default-features = false, optional = true }
+substrate-wasm-builder = { version = "5.0.0-dev", path = "../../../../../utils/wasm-builder", optional = true }
 
 [features]
 default = [ "std" ]
 std = [
 	"sp-api/std",
+	"sp-application-crypto/std",
+	"sp-block-builder/std",
+	"sp-consensus-aura/std",
+    "sp-consensus-grandpa/std",
+	"sp-consensus-babe/std",
+	"sp-consensus-beefy/std",
 	"sp-core/std",
 	"sp-crypto-ec-utils/std",
+	"sp-externalities/std",
+	"sp-inherents/std",
 	"sp-keyring",
+	"sp-offchain/std",
 	"sp-runtime/std",
+	"sp-session/std",
 	"sp-std/std",
+    "sp-io/std",
+	"sp-state-machine/std",
+	"sp-transaction-pool/std",
+	"sp-trie/std",
     "sp-version/std",
+    "sp-wasm-interface/std",
+	"pallet-balances/std",
+	"trie-db/std",
     "codec/std",
+	"frame-executive/std",
 	"frame-system/std",
+	"frame-system-rpc-runtime-api/std",
 	"frame-support/std",
 	"pallet-babe/std",
+	"pallet-timestamp/std",
 	"scale-info/std",
 	"substrate-test-runtime/std",
+    "substrate-wasm-builder",
+	"array-bytes",
+	"log/std",
 	"serde",
 	"serde/std",
-	"substrate-wasm-builder",
 ]
 
 disable-logging = [ "sp-api/disable-logging" ]
