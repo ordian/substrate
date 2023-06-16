@@ -7,5 +7,10 @@ use sp_std::fmt::Debug;
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum EccError {
 	// #[error("Failed to compute projective mul for g1 on bls12_381")]
-	Bls12_381G1Projective,
+	Bls12_377MULTI_MILLER_LOOP,
+	Bls12_377FINAL_EXPONENTIATION,
+	Bls12_377G1PROJECTIVE,
+	Bls12_377G2PROJECTIVE,
+
+
 }
