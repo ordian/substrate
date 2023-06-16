@@ -40,8 +40,8 @@ use sp_runtime::traits::Block as BlockT;
 use sp_std::prelude::*;
 use sp_version::RuntimeVersion;
 pub use substrate_test_runtime::{
-	AccountId, Address, Balance, BlockNumber, Digest, DigestItem, Hash, Hashing, Header,
-	Index, Signature, VERSION,
+	AccountId, Address, Balance, BlockNumber, Digest, DigestItem, Hash, Hashing, Header, Index,
+	Signature, VERSION,
 };
 
 #[cfg(feature = "std")]
