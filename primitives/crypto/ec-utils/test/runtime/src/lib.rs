@@ -40,10 +40,9 @@ use sp_runtime::traits::Block as BlockT;
 use sp_std::prelude::*;
 use sp_version::RuntimeVersion;
 pub use substrate_test_runtime::{
-	client, AccountId, Address, Balance, BlockNumber, Digest, DigestItem, Hash, Hashing, Header,
+	AccountId, Address, Balance, BlockNumber, Digest, DigestItem, Hash, Hashing, Header,
 	Index, Signature, VERSION,
 };
-use substrate_test_runtime_client::client;
 
 #[cfg(feature = "std")]
 pub use extrinsic::{ExtrinsicBuilder, Transfer};

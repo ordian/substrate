@@ -30,8 +30,9 @@ pub use substrate_test_runtime as runtime;
 pub use self::block_builder_ext::BlockBuilderExt;
 
 use sp_core::storage::{ChildInfo, Storage, StorageChild};
-use substrate_test_client::sc_executor::WasmExecutor;
-use substrate_test_runtime::genesismap::GenesisStorageBuilder;
+use sc_executor::NativeElseWasmExecutor;
+use substrate_test_client::{sc_executor::WasmExecutor, GenesisInit};
+use substrate_test_runtime::{genesismap::GenesisStorageBuilder, client};
 
 /// A prelude to import in tests.
 pub mod prelude {
