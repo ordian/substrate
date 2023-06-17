@@ -19,8 +19,11 @@
 //! multi_miller_loop, final_exponentiation, msm's and projective
 //! multiplications by host function calls
 
-use ark_bls12_377::{g1, g2, Bls12_377};
+use sp_ark_bls12_377::{Bls12_377 as Bls12_377Host, HostFunctions};
 use sp_std::vec::Vec;
+
+#[derive(PartialEq, Eq)]
+pub struct Host {}
 
 impl HostFunctions for Host {
 	fn bls12_377_multi_miller_loop(a: Vec<u8>, b: Vec<u8>) -> Result<Vec<u8>, ()> {
@@ -43,6 +46,4 @@ impl HostFunctions for Host {
 	}
 }
 
-type Bls12_377 = Bls12_377Host<Host>;
-type G1Projective = G1ProjectiveHost<Host>;
-type G2Projective = G2ProjectiveHost<Host>;
+pub type Bls12_377 = Bls12_377Host<Host>;

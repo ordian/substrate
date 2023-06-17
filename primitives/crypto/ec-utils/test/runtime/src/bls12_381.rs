@@ -19,23 +19,14 @@
 //! multi_miller_loop, final_exponentiation, msm's and projective
 //! multiplications by host function calls
 
-use ark_bls12_381::{g1, g2, Bls12_381};
+use sp_ark_bls12_381::{
+	Bls12_381 as Bls12_381Host, G1Affine as G1AffineHost, G1Projective as G1ProjectiveHost,
+	G2Affine as G2AffineHost, G2Projective as G2ProjectiveHost, HostFunctions,
+};
 use sp_std::vec::Vec;
 
-use ark_algebra_test_templates::*;
-use ark_ec::{AffineRepr, CurveGroup, Group};
-use ark_ff::{fields::Field, One, Zero};
-use ark_serialize::{CanonicalDeserialize, CanonicalSerialize, Compress, Validate};
-use ark_std::{rand::Rng, test_rng, vec, UniformRand};
-use sp_ark_bls12_381::{
-	fq::Fq, fq2::Fq2, fr::Fr, Bls12_381 as Bls12_381Host, G1Affine as G1AffineHost,
-	G1Projective as G1ProjectiveHost, G2Affine as G2AffineHost, G2Projective as G2ProjectiveHost,
-	HostFunctions,
-};
-use sp_ark_models::pairing::PairingOutput;
-
 #[derive(PartialEq, Eq)]
-struct Host;
+pub struct Host;
 
 impl HostFunctions for Host {
 	fn bls12_381_multi_miller_loop(a: Vec<u8>, b: Vec<u8>) -> Result<Vec<u8>, ()> {
@@ -58,7 +49,7 @@ impl HostFunctions for Host {
 	}
 }
 
-type Bls12_381 = Bls12_381Host<Host>;
+pub type Bls12_381 = Bls12_381Host<Host>;
 type G1Projective = G1ProjectiveHost<Host>;
 type G2Projective = G2ProjectiveHost<Host>;
 type G1Affine = G1AffineHost<Host>;

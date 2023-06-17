@@ -19,13 +19,10 @@
 //! performance of msm' and projective multiplications by host function
 //! calls.
 
-use ark_ed_on_bls12_381_bandersnatch::BandersnatchConfig;
-use sp_std::vec::Vec;
-
-use ark_algebra_test_templates::*;
 use sp_ark_ed_on_bls12_381_bandersnatch::{
 	EdwardsProjective as EdwardsProjectiveHost, HostFunctions, SWProjective as SWProjectiveHost,
 };
+use sp_std::vec::Vec;
 
 pub struct Host {}
 
@@ -60,5 +57,5 @@ impl HostFunctions for Host {
 	}
 }
 
-type EdwardsProjective = EdwardsProjectiveHost<Host>;
-type SWProjective = SWProjectiveHost<Host>;
+pub type EdwardsProjective = EdwardsProjectiveHost<Host>;
+pub type SWProjective = SWProjectiveHost<Host>;

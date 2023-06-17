@@ -15,6 +15,7 @@ pub enum EccError {
 	Bls12_381G2Projective,
 	Bls12_381MultiMillerLoop,
 	Bls12_381FinalExponentiation,
+	Bls12_381Groth16,
 	Bw6_761G1Projective,
 	Bw6_761G2Projective,
 	Bw6_761MsmG1,
@@ -27,4 +28,12 @@ pub enum EccError {
 	EdOnBls12_381BandersnatchTeMulProjective,
 	EdOnBls12_381BandersnatchSwMsm,
 	EdOnBls12_381BandersnatchTeMsm,
+	Bls12_381Groth16UnexpectedValidation,
+}
+
+#[derive(Clone, Copy, PartialEq, Eq, Encode, Decode, TypeInfo, Debug)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub enum Groth16Error {
+	// #[error("Failed to compute projective mul for g1 on bls12_381")]
+	Groth16Verification,
 }

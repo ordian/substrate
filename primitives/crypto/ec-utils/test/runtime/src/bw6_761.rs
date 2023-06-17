@@ -19,17 +19,15 @@
 //! multi_miller_loop, final_exponentiation, msm's and projective
 //! multiplications by host function calls.
 
-use ark_bw6_761::{g1, g2, BW6_761};
 use sp_std::vec::Vec;
 
-use ark_algebra_test_templates::*;
 use sp_ark_bw6_761::{
 	G1Projective as G1ProjectiveHost, G2Projective as G2ProjectiveHost, HostFunctions,
 	BW6_761 as BW6_761Host,
 };
 
 #[derive(PartialEq, Eq)]
-struct Host;
+pub struct Host;
 
 impl HostFunctions for Host {
 	fn bw6_761_multi_miller_loop(a: Vec<u8>, b: Vec<u8>) -> Result<Vec<u8>, ()> {
@@ -52,6 +50,6 @@ impl HostFunctions for Host {
 	}
 }
 
-type BW6_761 = BW6_761Host<Host>;
-type G1Projective = G1ProjectiveHost<Host>;
-type G2Projective = G2ProjectiveHost<Host>;
+pub type BW6_761 = BW6_761Host<Host>;
+pub type G1Projective = G1ProjectiveHost<Host>;
+pub type G2Projective = G2ProjectiveHost<Host>;

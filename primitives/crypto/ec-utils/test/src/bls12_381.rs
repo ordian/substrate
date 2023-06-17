@@ -55,3 +55,17 @@ fn test_bls12_381_g1_mul_projective_in_runtime() {
 
 	assert_eq!(G1Projective::generator().mul_bigint(&[2u64]), result.0);
 }
+
+#[test]
+fn test_bls12_381_groth16_in_runtime() {
+	// Get runtime client for testing
+	let test_client = get_test_client().expect("Test client builds");
+
+	// Call into the host function
+	let result = test_client
+		.runtime_api()
+		.test_groth16_bls12_381_runtime(
+			test_client.chain_info().genesis_hash
+		)
+		.expect("Runtime execution of groth16 verifies");
+}

@@ -18,13 +18,11 @@
 //! Support functions for ed_on_bls12_377 to improve the performance of
 //! msm and projective multiplication by host function calls
 
-use ark_ed_on_bls12_377::EdwardsConfig;
 use sp_std::vec::Vec;
 
-use ark_algebra_test_templates::*;
 use sp_ark_ed_on_bls12_377::{EdwardsProjective as EdwardsProjectiveHost, HostFunctions};
 
-struct Host {}
+pub struct Host {}
 
 impl HostFunctions for Host {
 	fn ed_on_bls12_377_msm(bases: Vec<u8>, scalars: Vec<u8>) -> Result<Vec<u8>, ()> {
@@ -35,4 +33,4 @@ impl HostFunctions for Host {
 	}
 }
 
-type EdwardsProjective = EdwardsProjectiveHost<Host>;
+pub type EdwardsProjective = EdwardsProjectiveHost<Host>;

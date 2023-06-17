@@ -24,16 +24,20 @@ pub use substrate_test_runtime::extrinsic;
 #[cfg(feature = "std")]
 pub use substrate_test_runtime::genesismap;
 
-// mod bls12_377;
-// mod bls12_381;
-// mod bw6_761;
-// mod ed_on_bls12_377;
-// mod ed_on_bls12_381_bandersnatch;
-
+mod bls12_377;
+mod bls12_381;
+mod bw6_761;
+mod ed_on_bls12_377;
+mod ed_on_bls12_381_bandersnatch;
 mod errors;
-pub use errors::EccError;
+mod groth16;
+mod oks;
+
+use crate::groth16::test_mimc_groth16;
+pub use errors::{EccError, Groth16Error};
 use frame_support::{construct_runtime, traits::ConstU32};
 use frame_system::{CheckNonce, CheckWeight};
+pub use oks::Groth16Ok;
 use sp_api::{decl_runtime_apis, impl_runtime_apis};
 pub use sp_core::hash::H256;
 use sp_runtime::traits::Block as BlockT;
@@ -107,6 +111,8 @@ decl_runtime_apis! {
 		fn ed_on_bls12_381_bandersnatch_te_mul_projective_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError>;
 		fn ed_on_bls12_381_bandersnatch_sw_msm_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError>;
 		fn ed_on_bls12_381_bandersnatch_te_msm_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError>;
+		// groth16 runtime
+		fn test_groth16_bls12_381_runtime();
 	}
 }
 
@@ -197,6 +203,10 @@ impl_runtime_apis! {
 			sp_crypto_ec_utils::elliptic_curves::bls12_381_final_exponentiation(target)
 			.map_err(|_| EccError::Bls12_381FinalExponentiation)
 		}
+		fn test_groth16_bls12_381_runtime() {
+			test_mimc_groth16();
+		}
+
 		// bw6 761 runtime apis
 		fn bw6_761_mul_projective_g1_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError> {
 			sp_crypto_ec_utils::elliptic_curves::bw6_761_mul_projective_g1(base, scalar)
