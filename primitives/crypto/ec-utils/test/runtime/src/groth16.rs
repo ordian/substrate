@@ -149,7 +149,7 @@ impl<'a, F: Field> ConstraintSynthesizer<F> for MiMCDemo<'a, F> {
 	}
 }
 
-pub fn test_mimc_groth16<Bls12_377>() {
+pub fn test_mimc_groth16<E: Pairing>() {
 	// Result<crate::Groth16Ok, crate::Groth16Error> {
 	// We're going to use the Groth16 proving system
 	// This may not be cryptographically safe, use
@@ -163,7 +163,7 @@ pub fn test_mimc_groth16<Bls12_377>() {
 	let (pk, vk) = {
 		let c = MiMCDemo::<Fr> { xl: None, xr: None, constants: &constants };
 
-		Groth16::<Bls12_377>::setup(c, &mut rng).unwrap()
+		Groth16::<E>::setup(c, &mut rng).unwrap()
 	};
 
 	let pvk = Groth16::<E>::process_vk(&vk).unwrap();
@@ -175,6 +175,6 @@ pub fn test_mimc_groth16<Bls12_377>() {
 	let c = MiMCDemo { xl: Some(xl), xr: Some(xr), constants: &constants };
 
 	// Create a groth16 proof with our parameters.
-	let proof = Groth16::<Bls12_377>::prove(&pk, c, &mut rng).unwrap();
-	Groth16::<Bls12_377>::verify_with_processed_vk(&pvk, &[image], &proof).unwrap();
+	let proof = Groth16::<E>::prove(&pk, c, &mut rng).unwrap();
+	Groth16::<E>::verify_with_processed_vk(&pvk, &[image], &proof).unwrap();
 }

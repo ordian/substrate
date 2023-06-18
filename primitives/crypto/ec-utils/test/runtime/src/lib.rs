@@ -82,33 +82,7 @@ pub type Block = sp_runtime::generic::Block<Header, Extrinsic>;
 decl_runtime_apis! {
 	#[api_version(2)]
 	pub trait TestAPI {
-		/// Tests a projective mul for g1 on bls12_381
-		fn bls12_377_g1_mul_projective_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError>;
-		fn bls12_377_g2_mul_projective_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError>;
-		fn bls12_377_multi_miller_loop_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError>;
-		fn bls12_377_final_exponentiation_runtime(target: Vec<u8>) -> Result<Vec<u8>, EccError>;
-		// bls12 381 runtime apis
-		fn bls12_381_mul_projective_g1_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError>;
-		fn bls12_381_mul_projective_g2_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError>;
-		fn bls12_381_multi_miller_loop_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError>;
-		fn bls12_381_final_exponentiation_runtime(target: Vec<u8>) -> Result<Vec<u8>, EccError>;
-		// bw6 761 runtime apis
-		fn bw6_761_mul_projective_g1_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError>;
-		fn bw6_761_mul_projective_g2_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError>;
-		fn bw6_761_msm_g1_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError>;
-		fn bw6_761_msm_g2_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError>;
-		fn bw6_761_multi_miller_loop_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError>;
-		fn bw6_761_final_exponentiation_runtime(target: Vec<u8>) -> Result<Vec<u8>, EccError>;
-		// ed on bls12 377 runtime apis
-		fn ed_on_bls12_377_mul_projective_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError>;
-		fn ed_on_bls12_377_msm_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError>;
-		// ed on bls12 381 runtime apis
-		fn ed_on_bls12_381_bandersnatch_sw_mul_projective_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError>;
-		fn ed_on_bls12_381_bandersnatch_te_mul_projective_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError>;
-		fn ed_on_bls12_381_bandersnatch_sw_msm_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError>;
-		fn ed_on_bls12_381_bandersnatch_te_msm_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError>;
-		// groth16 runtime
-		// fn groth16_aggregation();
+		fn groth16_test_mimc_runtime<E: Pairing>();
 	}
 }
 
@@ -163,99 +137,9 @@ impl_runtime_apis! {
 			unimplemented!()
 		}
 	}
-
 	impl self::TestAPI<Block> for Runtime {
-		// bls12 377 runtime apis
-		fn bls12_377_g1_mul_projective_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError> {
-			sp_crypto_ec_utils::elliptic_curves::bls12_377_mul_projective_g1(base, scalar)
-			.map_err(|_| EccError::Bls12_377G1Projective)
-		}
-		fn bls12_377_g2_mul_projective_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError> {
-			sp_crypto_ec_utils::elliptic_curves::bls12_377_mul_projective_g2(base, scalar)
-			.map_err(|_| EccError::Bls12_377G2Projective)
-		}
-		fn bls12_377_multi_miller_loop_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError> {
-			sp_crypto_ec_utils::elliptic_curves::bls12_377_multi_miller_loop(base, scalar)
-			.map_err(|_| EccError::Bls12_377MultiMillerLoop)
-		}
-		fn bls12_377_final_exponentiation_runtime(target: Vec<u8>) -> Result<Vec<u8>, EccError> {
-			sp_crypto_ec_utils::elliptic_curves::bls12_377_final_exponentiation(target)
-			.map_err(|_| EccError::Bls12_377FinalExponentiation)
-		}
-		// bls12 381 runtime apis
-		fn bls12_381_mul_projective_g1_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError> {
-			sp_crypto_ec_utils::elliptic_curves::bls12_381_mul_projective_g1(base, scalar)
-			.map_err(|_| EccError::Bls12_381G1Projective)
-		}
-		fn bls12_381_mul_projective_g2_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError> {
-			sp_crypto_ec_utils::elliptic_curves::bls12_381_mul_projective_g2(base, scalar)
-			.map_err(|_| EccError::Bls12_381G2Projective)
-		}
-		fn bls12_381_multi_miller_loop_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError> {
-			sp_crypto_ec_utils::elliptic_curves::bls12_381_multi_miller_loop(base, scalar)
-			.map_err(|_| EccError::Bls12_381MultiMillerLoop)
-		}
-		fn bls12_381_final_exponentiation_runtime(target: Vec<u8>) -> Result<Vec<u8>, EccError> {
-			sp_crypto_ec_utils::elliptic_curves::bls12_381_final_exponentiation(target)
-			.map_err(|_| EccError::Bls12_381FinalExponentiation)
-		}
-		fn test_groth16_bls12_381_runtime() {
-			test_mimc_groth16::<Bls12_381>();
-		}
-		// fn test_groth16_aggregation_bls12_381_runtime() {
-		// 	groth16_aggregation();
-		// }
-
-		// bw6 761 runtime apis
-		fn bw6_761_mul_projective_g1_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError> {
-			sp_crypto_ec_utils::elliptic_curves::bw6_761_mul_projective_g1(base, scalar)
-			.map_err(|_| EccError::Bw6_761G1Projective)
-		}
-		fn bw6_761_mul_projective_g2_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError> {
-			sp_crypto_ec_utils::elliptic_curves::bw6_761_mul_projective_g2(base, scalar)
-			.map_err(|_| EccError::Bw6_761G2Projective)
-		}
-		fn bw6_761_msm_g1_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError> {
-			sp_crypto_ec_utils::elliptic_curves::bw6_761_msm_g1(base, scalar)
-			.map_err(|_| EccError::Bw6_761MsmG1)
-		}
-		fn bw6_761_msm_g2_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError> {
-			sp_crypto_ec_utils::elliptic_curves::bw6_761_msm_g2(base, scalar)
-			.map_err(|_| EccError::Bw6_761MsmG2)
-		}
-		fn bw6_761_multi_miller_loop_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError> {
-			sp_crypto_ec_utils::elliptic_curves::bw6_761_multi_miller_loop(base, scalar)
-			.map_err(|_| EccError::Bw6_761MultiMillerLoop)
-		}
-		fn bw6_761_final_exponentiation_runtime(target: Vec<u8>) -> Result<Vec<u8>, EccError> {
-			sp_crypto_ec_utils::elliptic_curves::bw6_761_final_exponentiation(target)
-			.map_err(|_| EccError::Bw6_761FinalExponentiation)
-		}
-		// ed on bls12 377 runtime apis
-		fn ed_on_bls12_377_mul_projective_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError> {
-			sp_crypto_ec_utils::elliptic_curves::ed_on_bls12_377_mul_projective(base, scalar)
-			.map_err(|_| EccError::EdOnBls12_377MulProjective)
-		}
-		fn ed_on_bls12_377_msm_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError> {
-			sp_crypto_ec_utils::elliptic_curves::ed_on_bls12_377_msm(base, scalar)
-			.map_err(|_| EccError::EdOnBls12_377Msm)
-		}
-		// ed on bls12 381 runtime apis
-		fn ed_on_bls12_381_bandersnatch_sw_mul_projective_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError> {
-			sp_crypto_ec_utils::elliptic_curves::ed_on_bls12_381_bandersnatch_sw_mul_projective(base, scalar)
-			.map_err(|_| EccError::EdOnBls12_381BandersnatchSwMulProjective)
-		}
-		fn ed_on_bls12_381_bandersnatch_te_mul_projective_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError> {
-			sp_crypto_ec_utils::elliptic_curves::ed_on_bls12_381_bandersnatch_te_mul_projective(base, scalar)
-			.map_err(|_| EccError::EdOnBls12_381BandersnatchTeMulProjective)
-		}
-		fn ed_on_bls12_381_bandersnatch_sw_msm_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError> {
-			sp_crypto_ec_utils::elliptic_curves::ed_on_bls12_381_bandersnatch_sw_msm(base, scalar)
-			.map_err(|_| EccError::EdOnBls12_381BandersnatchSwMsm)
-		}
-		fn ed_on_bls12_381_bandersnatch_te_msm_runtime(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, EccError> {
-			sp_crypto_ec_utils::elliptic_curves::ed_on_bls12_381_bandersnatch_te_msm(base, scalar)
-			.map_err(|_| EccError::EdOnBls12_381BandersnatchTeMsm)
+		fn groth16_test_mimc_runtime<E: Pairing>() {
+			groth16::groth16_test_mimc_runtime<E>();
 		}
 }
 }

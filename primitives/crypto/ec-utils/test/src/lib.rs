@@ -17,8 +17,43 @@
 
 //! Runtime tests for sp-crypto-ec-utils
 
+use sp_crypto_ec_utils::{Bls12_377, Bls12_381};
+
 #[cfg(test)]
 mod test_client;
 
-#[cfg(test)]
-mod bls12_381;
+#[test]
+fn test_bls12_381_groth16_in_runtime() {
+	// Get runtime client for testing
+	let test_client = get_test_client().expect("Test client builds");
+
+	// Call into the host function
+	let result = test_client
+		.runtime_api()
+		.groth16_test_mimc_runtime::<Bls12_381>(test_client.chain_info().genesis_hash)
+		.expect("Runtime execution of groth16 verifies");
+}
+
+#[test]
+fn test_bls12_377_groth16_in_runtime() {
+	// Get runtime client for testing
+	let test_client = get_test_client().expect("Test client builds");
+
+	// Call into the host function
+	let result = test_client
+		.runtime_api()
+		.test_groth16_bls12_377_runtime::<Bls12_377>(test_client.chain_info().genesis_hash)
+		.expect("Runtime execution of groth16 verifies");
+}
+
+// #[test]
+// fn test_bw6_761_groth16_in_runtime() {
+// 	// Get runtime client for testing
+// 	let test_client = get_test_client().expect("Test client builds");
+
+// 	// Call into the host function
+// 	let result = test_client
+// 		.runtime_api()
+// 		.test_groth16_bls12_377_runtime(test_client.chain_info().genesis_hash)
+// 		.expect("Runtime execution of groth16 verifies");
+// }
