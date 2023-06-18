@@ -53,7 +53,17 @@ std = [
 	"substrate-test-runtime/std",
 	"codec/std",
     "serde",
-
+	"sp-ark-bls12-381/std",
+	"sp-ark-bls12-377/std",
+	"sp-ark-bw6-761/std",
+    "sp-ark-ed-on-bls12-381-bandersnatch/std",
+	"sp-ark-ed-on-bls12-377/std",
+	"ark-serialize/std",
+	"ark-std/std",
+	"ark-ff/std",
+	"ark-ec/std",
+	"ark-groth16/std",
+	"ark-relations/std",
 	"substrate-wasm-builder",
 ]
 

@@ -25,7 +25,7 @@ pub use substrate_test_runtime::extrinsic;
 #[cfg(feature = "std")]
 pub use substrate_test_runtime::genesismap;
 
-mod aggregation;
+// mod aggregation;
 mod errors;
 mod groth16;
 
