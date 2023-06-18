@@ -11359,6 +11359,7 @@ dependencies = [
  "sp-consensus",
  "sp-core",
  "sp-crypto-ec-utils",
+ "sp-io",
  "sp-runtime",
  "sp-std",
  "sp-tracing",

@@ -25,10 +25,10 @@ pub use substrate_test_runtime::extrinsic;
 #[cfg(feature = "std")]
 pub use substrate_test_runtime::genesismap;
 
-// mod aggregation;
 mod errors;
 mod groth16;
 
+extern crate sp_io;
 use crate::groth16::test_mimc_groth16;
 pub use errors::{EccError, Groth16Error};
 use frame_support::{construct_runtime, traits::ConstU32};
@@ -144,37 +144,37 @@ impl_runtime_apis! {
 }
 }
 
-#[runtime_interface]
-pub trait Logging {
-	/// Request to print a log message on the host.
-	///
-	/// Note that this will be only displayed if the host is enabled to display log messages with
-	/// given level and target.
-	///
-	/// Instead of using directly, prefer setting up `RuntimeLogger` and using `log` macros.
-	fn log(level: LogLevel, target: &str, message: &[u8]) {
-		if let Ok(message) = std::str::from_utf8(message) {
-			log::log!(target: target, log::Level::from(level), "{}", message)
-		}
-	}
+// #[runtime_interface]
+// pub trait Logging {
+// 	/// Request to print a log message on the host.
+// 	///
+// 	/// Note that this will be only displayed if the host is enabled to display log messages with
+// 	/// given level and target.
+// 	///
+// 	/// Instead of using directly, prefer setting up `RuntimeLogger` and using `log` macros.
+// 	fn log(level: LogLevel, target: &str, message: &[u8]) {
+// 		if let Ok(message) = std::str::from_utf8(message) {
+// 			log::log!(target: target, log::Level::from(level), "{}", message)
+// 		}
+// 	}
 
-	/// Returns the max log level used by the host.
-	fn max_level() -> LogLevelFilter {
-		log::max_level().into()
-	}
-}
+// 	/// Returns the max log level used by the host.
+// 	fn max_level() -> LogLevelFilter {
+// 		log::max_level().into()
+// 	}
+// }
 
-#[panic_handler]
-#[no_mangle]
-pub fn panic(info: &core::panic::PanicInfo) -> ! {
-	let message = sp_std::alloc::format!("{}", info);
-	#[cfg(feature = "improved_panic_error_reporting")]
-	{
-		panic_handler::abort_on_panic(&message);
-	}
-	#[cfg(not(feature = "improved_panic_error_reporting"))]
-	{
-		logging::log(LogLevel::Error, "runtime", message.as_bytes());
-		core::arch::wasm32::unreachable();
-	}
-}
+// #[panic_handler]
+// #[no_mangle]
+// pub fn panic(info: &core::panic::PanicInfo) -> ! {
+// 	let message = sp_std::alloc::format!("{}", info);
+// 	#[cfg(feature = "improved_panic_error_reporting")]
+// 	{
+// 		panic_handler::abort_on_panic(&message);
+// 	}
+// 	#[cfg(not(feature = "improved_panic_error_reporting"))]
+// 	{
+// 		logging::log(LogLevel::Error, "runtime", message.as_bytes());
+// 		core::arch::wasm32::unreachable();
+// 	}
+// }

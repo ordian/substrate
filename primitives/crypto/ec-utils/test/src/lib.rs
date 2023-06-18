@@ -17,13 +17,15 @@
 
 //! Runtime tests for sp-crypto-ec-utils
 
-use sp_crypto_ec_utils::{Bls12_377, Bls12_381};
+use ark_bls12_377::Bls12_377;
+use ark_bls12_381::Bls12_381;
+use sp_crypto_ec_utils::{Bls12_377 as Bls12_377ArkSubstrate, Bls12_381 as Bls12_381ArkSubstrate};
 
 #[cfg(test)]
 mod test_client;
 
 #[test]
-fn test_bls12_381_groth16_in_runtime() {
+fn test_ark_substrate_bls12_381_groth16_in_runtime() {
 	// Get runtime client for testing
 	let test_client = get_test_client().expect("Test client builds");
 
@@ -35,7 +37,31 @@ fn test_bls12_381_groth16_in_runtime() {
 }
 
 #[test]
-fn test_bls12_377_groth16_in_runtime() {
+fn test_arkworks_bls12_381_groth16_in_runtime() {
+	// Get runtime client for testing
+	let test_client = get_test_client().expect("Test client builds");
+
+	// Call into the host function
+	let result = test_client
+		.runtime_api()
+		.groth16_test_mimc_runtime::<Bls12_381>(test_client.chain_info().genesis_hash)
+		.expect("Runtime execution of groth16 verifies");
+}
+
+#[test]
+fn test_ark_substrate_bls12_377_groth16_in_runtime() {
+	// Get runtime client for testing
+	let test_client = get_test_client().expect("Test client builds");
+
+	// Call into the host function
+	let result = test_client
+		.runtime_api()
+		.test_groth16_bls12_377_runtime::<Bls12_377>(test_client.chain_info().genesis_hash)
+		.expect("Runtime execution of groth16 verifies");
+}
+
+#[test]
+fn test_arkworks_bls12_377_groth16_in_runtime() {
 	// Get runtime client for testing
 	let test_client = get_test_client().expect("Test client builds");
 
