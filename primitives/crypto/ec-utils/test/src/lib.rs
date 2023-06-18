@@ -29,15 +29,10 @@ mod test_client;
 
 #[test]
 fn test_ark_substrate_bls12_381_groth16_in_runtime() {
-	// Set the environment variable
+	// Configure stack size
 	let stack_size: i32 = unimplemented!();
-	let _ = Command::new("cargo")
-		.env("STACK_SIZE", stack_size)
-		.arg("build")
-		.output()
-		.expect("Failed to run build command");
 	// Get runtime client for testing
-	let test_client = get_test_client().expect("Test client builds");
+	let test_client = get_test_client(stack_size).expect("Test client builds");
 
 	// Call into the host function
 	let result = test_client
@@ -48,9 +43,9 @@ fn test_ark_substrate_bls12_381_groth16_in_runtime() {
 
 #[test]
 fn test_arkworks_bls12_381_groth16_in_runtime() {
-	// Get runtime client for testing
+	// Configure stack size
 	let stack_size = unimplemented!();
-	let test_client = get_test_client().expect("Test client builds");
+	let test_client = get_test_client(stack_size).expect("Test client builds");
 
 	// Call into the host function
 	let result = test_client
@@ -63,7 +58,7 @@ fn test_arkworks_bls12_381_groth16_in_runtime() {
 fn test_ark_substrate_bls12_377_groth16_in_runtime() {
 	// Get runtime client for testing
 	let stack_size = unimplemented!();
-	let test_client = get_test_client().expect("Test client builds");
+	let test_client = get_test_client(stack_size).expect("Test client builds");
 
 	// Call into the host function
 	let result = test_client
@@ -76,7 +71,7 @@ fn test_ark_substrate_bls12_377_groth16_in_runtime() {
 fn test_arkworks_bls12_377_groth16_in_runtime() {
 	// Get runtime client for testing
 	let stack_size = unimplemented!();
-	let test_client = get_test_client().expect("Test client builds");
+	let test_client = get_test_client(stack_size).expect("Test client builds");
 
 	// Call into the host function
 	let result = test_client

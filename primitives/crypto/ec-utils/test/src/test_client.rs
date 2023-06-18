@@ -75,15 +75,15 @@ impl NativeExecutionDispatch for ExecutorDispatch {
 
 type EccExecutor = LocalCallExecutor<Block, Backend, NativeElseWasmExecutor<ExecutorDispatch>>;
 
-pub(crate) fn get_test_client() -> Result<Client<Backend, EccExecutor, Block, RuntimeApi>, ApiError>
-{
+pub(crate) fn get_test_client(
+	stack_size: i32,
+) -> Result<Client<Backend, EccExecutor, Block, RuntimeApi>, ApiError> {
 	// Set the environment variable
 	let _ = Command::new("cargo")
-		.env("MY_PARAMETER", "some_value")
+		.env("STACK_SIZE", stack_size)
 		.arg("build")
 		.output()
 		.expect("Failed to run build command");
-
 	// Add assertions or further test code as needed...
 	let keystore = Arc::new(MemoryKeystore::new());
 	let method = WasmExecutionMethod::Compiled {
