@@ -17,15 +17,25 @@
 
 //! Runtime tests for sp-crypto-ec-utils
 
+use crate::{consts, test_client::get_test_client};
 use ark_bls12_377::Bls12_377;
 use ark_bls12_381::Bls12_381;
-use sp_crypto_ec_utils::{Bls12_377 as Bls12_377ArkSubstrate, Bls12_381 as Bls12_381ArkSubstrate};
+use sp_crypto_ec_utils::{
+	bls12_377::Bls12_377 as Bls12_377ArkSubstrate, bls12_381::Bls12_381 as Bls12_381ArkSubstrate,
+};
 
 #[cfg(test)]
 mod test_client;
 
 #[test]
 fn test_ark_substrate_bls12_381_groth16_in_runtime() {
+	// Set the environment variable
+	let stack_size: i32 = unimplemented!();
+	let _ = Command::new("cargo")
+		.env("STACK_SIZE", stack_size)
+		.arg("build")
+		.output()
+		.expect("Failed to run build command");
 	// Get runtime client for testing
 	let test_client = get_test_client().expect("Test client builds");
 
@@ -39,6 +49,7 @@ fn test_ark_substrate_bls12_381_groth16_in_runtime() {
 #[test]
 fn test_arkworks_bls12_381_groth16_in_runtime() {
 	// Get runtime client for testing
+	let stack_size = unimplemented!();
 	let test_client = get_test_client().expect("Test client builds");
 
 	// Call into the host function
@@ -51,6 +62,7 @@ fn test_arkworks_bls12_381_groth16_in_runtime() {
 #[test]
 fn test_ark_substrate_bls12_377_groth16_in_runtime() {
 	// Get runtime client for testing
+	let stack_size = unimplemented!();
 	let test_client = get_test_client().expect("Test client builds");
 
 	// Call into the host function
@@ -63,6 +75,7 @@ fn test_ark_substrate_bls12_377_groth16_in_runtime() {
 #[test]
 fn test_arkworks_bls12_377_groth16_in_runtime() {
 	// Get runtime client for testing
+	let stack_size = unimplemented!();
 	let test_client = get_test_client().expect("Test client builds");
 
 	// Call into the host function
@@ -71,15 +84,3 @@ fn test_arkworks_bls12_377_groth16_in_runtime() {
 		.test_groth16_bls12_377_runtime::<Bls12_377>(test_client.chain_info().genesis_hash)
 		.expect("Runtime execution of groth16 verifies");
 }
-
-// #[test]
-// fn test_bw6_761_groth16_in_runtime() {
-// 	// Get runtime client for testing
-// 	let test_client = get_test_client().expect("Test client builds");
-
-// 	// Call into the host function
-// 	let result = test_client
-// 		.runtime_api()
-// 		.test_groth16_bls12_377_runtime(test_client.chain_info().genesis_hash)
-// 		.expect("Runtime execution of groth16 verifies");
-// }

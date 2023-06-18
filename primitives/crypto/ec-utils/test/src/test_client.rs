@@ -31,7 +31,7 @@ use sp_keystore::testing::MemoryKeystore;
 use sp_state_machine::ExecutionStrategy;
 use sp_storage::Storage;
 use sp_wasm_interface::ExtendedHostFunctions;
-use std::sync::Arc;
+use std::{process::Command, sync::Arc};
 use substrate_test_client::TestClientBuilder;
 use substrate_test_runtime_client::client::{ClientConfig, LocalCallExecutor};
 
@@ -71,10 +71,20 @@ impl NativeExecutionDispatch for ExecutorDispatch {
 	}
 }
 
+// Add assertions or further test code as needed...
+
 type EccExecutor = LocalCallExecutor<Block, Backend, NativeElseWasmExecutor<ExecutorDispatch>>;
 
 pub(crate) fn get_test_client() -> Result<Client<Backend, EccExecutor, Block, RuntimeApi>, ApiError>
 {
+	// Set the environment variable
+	let _ = Command::new("cargo")
+		.env("MY_PARAMETER", "some_value")
+		.arg("build")
+		.output()
+		.expect("Failed to run build command");
+
+	// Add assertions or further test code as needed...
 	let keystore = Arc::new(MemoryKeystore::new());
 	let method = WasmExecutionMethod::Compiled {
 		instantiation_strategy: WasmtimeInstantiationStrategy::RecreateInstance,
