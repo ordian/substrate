@@ -6,55 +6,55 @@ use sp_std::fmt::Debug;
 #[derive(Clone, Copy, PartialEq, Eq, Encode, Decode, TypeInfo, Debug)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum EccError {
-	#[error("")]
+	// #[error("")]
 	Bls12_377MultiMillerLoop,
-	#[error("")]
+	// #[error("")]
 	Bls12_377FinalExponentiation,
-	#[error("")]
+	// #[error("")]
 	Bls12_377G1Projective,
-	#[error("")]
+	// #[error("")]
 	Bls12_377G2Projective,
-	#[error("")]
+	// #[error("")]
 	Bls12_381G1Projective,
-	#[error("")]
+	// #[error("")]
 	Bls12_381G2Projective,
-	#[error("")]
+	// #[error("")]
 	Bls12_381MultiMillerLoop,
-	#[error("")]
+	// #[error("")]
 	Bls12_381FinalExponentiation,
-	#[error("")]
+	// #[error("")]
 	Bls12_381Groth16,
-	#[error("")]
+	// #[error("")]
 	Bw6_761G1Projective,
-	#[error("")]
+	// #[error("")]
 	Bw6_761G2Projective,
-	#[error("")]
+	// #[error("")]
 	Bw6_761MsmG1,
-	#[error("")]
+	// #[error("")]
 	Bw6_761MsmG2,
-	#[error("")]
+	// #[error("")]
 	Bw6_761MultiMillerLoop,
-	#[error("")]
+	// #[error("")]
 	Bw6_761FinalExponentiation,
-	#[error("")]
+	// #[error("")]
 	EdOnBls12_377MulProjective,
-	#[error("")]
+	// #[error("")]
 	EdOnBls12_377Msm,
-	#[error("")]
+	// #[error("")]
 	EdOnBls12_381BandersnatchSwMulProjective,
-	#[error("")]
+	// #[error("")]
 	EdOnBls12_381BandersnatchTeMulProjective,
-	#[error("")]
+	// #[error("")]
 	EdOnBls12_381BandersnatchSwMsm,
-	#[error("")]
+	// #[error("")]
 	EdOnBls12_381BandersnatchTeMsm,
-	#[error("")]
+	// #[error("")]
 	Bls12_381Groth16UnexpectedValidation,
 }
 
 #[derive(Clone, Copy, PartialEq, Eq, Encode, Decode, TypeInfo, Debug)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Groth16Error {
-	#[error("Failed to compute projective mul for g1 on bls12_381")]
+	// #[error("Failed to compute projective mul for g1 on bls12_381")]
 	Groth16Verification,
 }

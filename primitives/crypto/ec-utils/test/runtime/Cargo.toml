@@ -14,18 +14,30 @@ repository = "https://github.com/paritytech/substrate/"
 targets = ["x86_64-unknown-linux-gnu"]
 
 [dependencies]
-sp-api = { version = "4.0.0-dev", default-features = false, path = "../../../../api" }
-sp-core = { version = "21.0.0", default-features = false, features = ["serde"], path = "../../../../core" }
+sp-api = { version = "4.0.0-dev", default-features = false, path = "../../../../api", features = ["disable-logging"] }
+sp-core = { version = "21.0.0", default-features = false, features = [], path = "../../../../core" }
 sp-crypto-ec-utils = { version = "0.4.0", default-features = false, path = "../../" }
 sp-runtime = { version = "24.0.0", default-features = false, path = "../../../../runtime" }
 sp-std = { version = "8.0.0", default-features = false, path = "../../../../std" }
 sp-version = { version = "22.0.0", default-features = false, path = "../../../../version" }
 frame-system = { version = "4.0.0-dev", default-features = false, path = "../../../../../frame/system" }
-scale-info = { version = "2.5.0", default-features = false, features = ["derive"] }
+scale-info = { version = "2.5.0", default-features = false, features = [] }
 frame-support = { version = "4.0.0-dev", default-features = false, path = "../../../../../frame/support" }
 substrate-test-runtime = { version = "2.0.0", default-features = false, path = "../../../../../test-utils/runtime" }
-codec = { version = "3.5.0", package = "parity-scale-codec", default-features = false, features = ["derive", "max-encoded-len"] }
-serde = { version = "1.0.163", optional = true, default-features = false, features = ["derive"] }
+codec = { version = "3.5.0", package = "parity-scale-codec", default-features = false, features = ["max-encoded-len"] }
+serde = { version = "1.0.164", optional = true, default-features = false, features = ["serde"] }
+sp-ark-models = { version = "0.4.0-beta", default-features = false }
+sp-ark-bls12-377 = { version = "0.4.0-beta", default-features = false }
+sp-ark-bls12-381 = { version = "0.4.0-beta", default-features = false }
+sp-ark-bw6-761 = { version = "0.4.0-beta", default-features = false }
+sp-ark-ed-on-bls12-377 = { version = "0.4.0-beta", default-features = false }
+sp-ark-ed-on-bls12-381-bandersnatch = { version = "0.4.0-beta", default-features = false }
+ark-serialize = { version = "0.4.2", default-features = false }
+ark-std = { version = "0.4.0", default-features = false }
+ark-ff = { version = "0.4.2", default-features = false }
+ark-ec = { version = "0.4.2", default-features = false }
+ark-groth16 = { version = "0.4.0", default-features = false }
+ark-relations = { version = "0.4.0", default-features = false }
 
 [dev-dependencies]
 futures = "0.3.21"
@@ -53,8 +65,8 @@ std = [
 	"substrate-test-runtime/std",
 	"codec/std",
     "serde",
-	"sp-ark-bls12-381/std",
 	"sp-ark-bls12-377/std",
+	"sp-ark-bls12-381/std",
 	"sp-ark-bw6-761/std",
     "sp-ark-ed-on-bls12-381-bandersnatch/std",
 	"sp-ark-ed-on-bls12-377/std",
@@ -66,5 +78,4 @@ std = [
 	"ark-relations/std",
 	"substrate-wasm-builder",
 ]
-
 disable-logging = [ "sp-api/disable-logging" ]
