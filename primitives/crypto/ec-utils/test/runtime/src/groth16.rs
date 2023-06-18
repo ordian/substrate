@@ -11,6 +11,7 @@
 )]
 
 // For randomness (during paramgen and proof generation)
+use ark_ec::pairing::Pairing;
 use ark_groth16::Groth16;
 use ark_snark::{CircuitSpecificSetupSNARK, SNARK};
 use ark_std::{
@@ -24,9 +25,9 @@ use sp_ark_bls12_381::Fr;
 
 // Bring in some tools for using pairing-friendly curves
 // We're going to use the BLS12-377 pairing-friendly elliptic curve.
-use crate::bls12_381::Bls12_381;
 use ark_ff::Field;
 use ark_std::test_rng;
+use sp_crypto_ec_utils::bls12_377::Bls12_377;
 
 // We'll use these interfaces to construct our circuit.
 use ark_relations::{
@@ -34,7 +35,7 @@ use ark_relations::{
 	r1cs::{ConstraintSynthesizer, ConstraintSystemRef, SynthesisError, Variable},
 };
 
-const MIMC_ROUNDS: usize = 322;
+const MIMC_ROUNDS: usize = 3022;
 
 /// This is an implementation of MiMC, specifically a
 /// variant named `LongsightF322p3` for BLS12-377.
@@ -148,7 +149,7 @@ impl<'a, F: Field> ConstraintSynthesizer<F> for MiMCDemo<'a, F> {
 	}
 }
 
-pub fn test_mimc_groth16() {
+pub fn test_mimc_groth16<Bls12_377>() {
 	// Result<crate::Groth16Ok, crate::Groth16Error> {
 	// We're going to use the Groth16 proving system
 	// This may not be cryptographically safe, use
@@ -162,10 +163,10 @@ pub fn test_mimc_groth16() {
 	let (pk, vk) = {
 		let c = MiMCDemo::<Fr> { xl: None, xr: None, constants: &constants };
 
-		Groth16::<Bls12_381>::setup(c, &mut rng).unwrap()
+		Groth16::<Bls12_377>::setup(c, &mut rng).unwrap()
 	};
 
-	let pvk = Groth16::<Bls12_381>::process_vk(&vk).unwrap();
+	let pvk = Groth16::<E>::process_vk(&vk).unwrap();
 
 	// Generate a random preimage and compute the image
 	let xl = rng.gen();
@@ -174,6 +175,6 @@ pub fn test_mimc_groth16() {
 	let c = MiMCDemo { xl: Some(xl), xr: Some(xr), constants: &constants };
 
 	// Create a groth16 proof with our parameters.
-	let proof = Groth16::<Bls12_381>::prove(&pk, c, &mut rng).unwrap();
-	Groth16::<Bls12_381>::verify_with_processed_vk(&pvk, &[image], &proof).unwrap();
+	let proof = Groth16::<Bls12_377>::prove(&pk, c, &mut rng).unwrap();
+	Groth16::<Bls12_377>::verify_with_processed_vk(&pvk, &[image], &proof).unwrap();
 }

@@ -15,7 +15,7 @@ targets = ["x86_64-unknown-linux-gnu"]
 
 [dependencies]
 sp-api = { version = "4.0.0-dev", default-features = false, path = "../../../../api" }
-sp-core = { version = "21.0.0", default-features = false, path = "../../../../core" }
+sp-core = { version = "21.0.0", default-features = false, features = ["serde"], path = "../../../../core" }
 sp-crypto-ec-utils = { version = "0.4.0", default-features = false, path = "../../" }
 sp-runtime = { version = "24.0.0", default-features = false, path = "../../../../runtime" }
 sp-std = { version = "8.0.0", default-features = false, path = "../../../../std" }
@@ -24,21 +24,8 @@ frame-system = { version = "4.0.0-dev", default-features = false, path = "../../
 scale-info = { version = "2.5.0", default-features = false, features = ["derive"] }
 frame-support = { version = "4.0.0-dev", default-features = false, path = "../../../../../frame/support" }
 substrate-test-runtime = { version = "2.0.0", default-features = false, path = "../../../../../test-utils/runtime" }
-codec = { version = "3.5.0", package = "parity-scale-codec", default-features = false, features = ["derive"] }
+codec = { version = "3.5.0", package = "parity-scale-codec", default-features = false, features = ["derive", "max-encoded-len"] }
 serde = { version = "1.0.163", optional = true, default-features = false, features = ["derive"] }
-sp-ark-bls12-381 = { version = "0.4.0-beta", default-features = false, features = [ "curve" ] }
-sp-ark-bls12-377 = { version = "0.4.0-beta", default-features = false, features = [ "curve" ] }
-sp-ark-bw6-761 = { version = "0.4.0-beta", default-features = false }
-sp-ark-ed-on-bls12-381-bandersnatch = { version = "0.4.0-beta", default-features = false }
-sp-ark-ed-on-bls12-377 = { version = "0.4.0-beta", default-features = false }
-ark-serialize = { version = "0.4.2", default-features = false }
-ark-std = { version = "0.4.0", default-features = false }
-ark-ff = { version = "0.4.2", default-features = false }
-ark-ec = { version = "0.4.2", default-features = false }
-ark-groth16 = { version = "0.4.0", default-features = false }
-ark-relations = { version = "0.4.0", default-features = false }
-ark-snark = { version = "0.4.0", default-features = false  }
-
 
 [dev-dependencies]
 futures = "0.3.21"
@@ -65,19 +52,9 @@ std = [
 	"frame-support/std",
 	"substrate-test-runtime/std",
 	"codec/std",
-    "serde/std",
+    "serde",
+
 	"substrate-wasm-builder",
-	"sp-ark-bls12-381/std",
-	"sp-ark-bls12-377/std",
-	"sp-ark-bw6-761/std",
-    "sp-ark-ed-on-bls12-381-bandersnatch/std",
-	"sp-ark-ed-on-bls12-377/std",
-	"ark-serialize/std",
-	"ark-std/std",
-	"ark-ff/std",
-	"ark-ec/std",
-	"ark-groth16/std",
-	"ark-relations/std",
 ]
 
 disable-logging = [ "sp-api/disable-logging" ]

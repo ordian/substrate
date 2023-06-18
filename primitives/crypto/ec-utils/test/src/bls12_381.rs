@@ -64,8 +64,18 @@ fn test_bls12_381_groth16_in_runtime() {
 	// Call into the host function
 	let result = test_client
 		.runtime_api()
-		.test_groth16_bls12_381_runtime(
-			test_client.chain_info().genesis_hash
-		)
+		.test_groth16_bls12_381_runtime(test_client.chain_info().genesis_hash)
+		.expect("Runtime execution of groth16 verifies");
+}
+
+#[test]
+fn test_bls12_381_groth16_aggregation_runtime() {
+	// Get runtime client for testing
+	let test_client = get_test_client().expect("Test client builds");
+
+	// Call into the host function
+	let result = test_client
+		.runtime_api()
+		.test_groth16_aggregation_bls12_381_runtime(test_client.chain_info().genesis_hash)
 		.expect("Runtime execution of groth16 verifies");
 }

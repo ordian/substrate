@@ -69,7 +69,7 @@ mod tests {
 	};
 
 	#[derive(PartialEq, Eq)]
-	struct Host;
+	pub struct Host;
 
 	impl HostFunctions for Host {
 		fn bw6_761_multi_miller_loop(a: Vec<u8>, b: Vec<u8>) -> Result<Vec<u8>, ()> {
@@ -92,9 +92,9 @@ mod tests {
 		}
 	}
 
-	type BW6_761 = BW6_761Host<Host>;
-	type G1Projective = G1ProjectiveHost<Host>;
-	type G2Projective = G2ProjectiveHost<Host>;
+	pub type BW6_761 = BW6_761Host<Host>;
+	pub type G1Projective = G1ProjectiveHost<Host>;
+	pub type G2Projective = G2ProjectiveHost<Host>;
 
 	test_group!(g1; G1Projective; sw);
 	test_group!(g2; G2Projective; sw);

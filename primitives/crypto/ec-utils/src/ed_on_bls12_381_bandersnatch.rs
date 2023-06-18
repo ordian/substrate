@@ -86,8 +86,8 @@ mod tests {
 		}
 	}
 
-	type EdwardsProjective = EdwardsProjectiveHost<Host>;
-	type SWProjective = SWProjectiveHost<Host>;
+	pub type EdwardsProjective = EdwardsProjectiveHost<Host>;
+	pub type SWProjective = SWProjectiveHost<Host>;
 
 	test_group!(sw; SWProjective; sw);
 	test_group!(te; EdwardsProjective; te);
