@@ -34,6 +34,7 @@ use sp_wasm_interface::ExtendedHostFunctions;
 use std::{process::Command, sync::Arc};
 use substrate_test_client::TestClientBuilder;
 use substrate_test_runtime_client::client::{ClientConfig, LocalCallExecutor};
+use crate:OsString;
 
 pub type Backend = substrate_test_client::Backend<Block>;
 
@@ -72,11 +73,12 @@ impl NativeExecutionDispatch for ExecutorDispatch {
 }
 
 // Add assertions or further test code as needed...
-
 type EccExecutor = LocalCallExecutor<Block, Backend, NativeElseWasmExecutor<ExecutorDispatch>>;
 
-pub(crate) fn get_test_client() -> Result<Client<Backend, EccExecutor, Block, RuntimeApi>, ApiError>
-{
+pub(crate) fn compose_test_client(
+	stack_size: i32,
+) -> Result<Client<Backend, EccExecutor, Block, RuntimeApi>, ApiError> {
+	let stack_size = OsString::from(stack_size.to_string());
 	let keystore = Arc::new(MemoryKeystore::new());
 	let method = WasmExecutionMethod::Compiled {
 		instantiation_strategy: WasmtimeInstantiationStrategy::RecreateInstance,
@@ -102,6 +104,7 @@ pub(crate) fn get_test_client() -> Result<Client<Backend, EccExecutor, Block, Ru
 	);
 	let ecc_executor =
 		EccExecutor::new(backend.clone(), executor, ClientConfig::default(), execution_extensions)?;
+	
 	let (test_client, _) =
 		<TestClientBuilder<Block, EccExecutor, Backend, GenesisParameters>>::with_backend(backend)
 			.set_keystore(keystore)
