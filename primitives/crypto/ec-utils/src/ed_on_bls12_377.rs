@@ -35,22 +35,22 @@ pub fn mul_projective(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, ()> {
 	mul_projective_te_generic::<EdwardsConfig>(base, scalar)
 }
 
-pub struct Host {}
-
-impl HostFunctions for Host {
-	fn ed_on_bls12_377_msm(bases: Vec<u8>, scalars: Vec<u8>) -> Result<Vec<u8>, ()> {
-		crate::elliptic_curves::ed_on_bls12_377_msm(bases, scalars)
-	}
-	fn ed_on_bls12_377_mul_projective(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, ()> {
-		crate::elliptic_curves::ed_on_bls12_377_mul_projective(base, scalar)
-	}
-}
-pub type EdwardsProjective = EdwardsProjectiveHost<Host>;
-
 #[cfg(test)]
 mod tests {
 	use super::*;
 	use ark_algebra_test_templates::*;
+
+	pub struct Host {}
+
+	impl HostFunctions for Host {
+		fn ed_on_bls12_377_msm(bases: Vec<u8>, scalars: Vec<u8>) -> Result<Vec<u8>, ()> {
+			crate::elliptic_curves::ed_on_bls12_377_msm(bases, scalars)
+		}
+		fn ed_on_bls12_377_mul_projective(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, ()> {
+			crate::elliptic_curves::ed_on_bls12_377_mul_projective(base, scalar)
+		}
+	}
+	pub type EdwardsProjective = EdwardsProjectiveHost<Host>;
 
 	test_group!(te; EdwardsProjective; te);
 }

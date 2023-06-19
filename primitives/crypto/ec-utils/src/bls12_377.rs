@@ -59,10 +59,6 @@ pub fn mul_projective_g2(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, ()> 
 	mul_projective_generic::<g2::Config>(base, scalar)
 }
 
-pub type SPBls12_377 = Bls12_377Host<Host>;
-pub type SPG1Projective = G1ProjectiveHost<Host>;
-pub type SPG2Projective = G2ProjectiveHost<Host>;
-
 #[cfg(test)]
 mod tests {
 	use super::*;
@@ -73,7 +69,7 @@ mod tests {
 	};
 
 	#[derive(PartialEq, Eq)]
-	pub struct Host;
+	struct Host;
 
 	impl HostFunctions for Host {
 		fn bls12_377_multi_miller_loop(a: Vec<u8>, b: Vec<u8>) -> Result<Vec<u8>, ()> {
@@ -95,6 +91,10 @@ mod tests {
 			crate::elliptic_curves::bls12_377_mul_projective_g2(base, scalar)
 		}
 	}
+
+	type Bls12_377 = Bls12_377Host<Host>;
+	type G1Projective = G1ProjectiveHost<Host>;
+	type G2Projective = G2ProjectiveHost<Host>;
 
 	test_group!(g1; G1Projective; sw);
 	test_group!(g2; G2Projective; sw);
