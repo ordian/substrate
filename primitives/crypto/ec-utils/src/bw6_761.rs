@@ -23,10 +23,6 @@ use crate::utils::{
 	final_exponentiation_generic, msm_sw_generic, mul_projective_generic, multi_miller_loop_generic,
 };
 use ark_bw6_761::{g1, g2, BW6_761};
-use sp_ark_bw6_761::{
-	G1Projective as G1ProjectiveHost, G2Projective as G2ProjectiveHost, HostFunctions,
-	BW6_761 as BW6_761Host,
-};
 use sp_std::vec::Vec;
 
 /// Compute a multi miller loop through arkworks

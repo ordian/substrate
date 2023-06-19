@@ -92,7 +92,7 @@ mod tests {
 		}
 	}
 
-	type Bls12_377 = Bls12_377Host<Host>;
+	pub type Bls12_377 = Bls12_377Host<Host>;
 	type G1Projective = G1ProjectiveHost<Host>;
 	type G2Projective = G2ProjectiveHost<Host>;
 

@@ -17,28 +17,22 @@
 
 //! Runtime tests for sp-crypto-ec-utils
 
+mod curves;
 mod test_client_provider;
 use crate::test_client_provider::get_test_client;
-use ark_bls12_377::Bls12_377;
-use ark_bls12_381::Bls12_381;
-use sp_crypto_ec_utils::{
-	bls12_377::Bls12_377 as Bls12_377ArkSubstrate, bls12_381::Bls12_381 as Bls12_381ArkSubstrate,
-};
-use std::{
-	ffi::{OsStr, OsString},
-	process::Command,
-};
-use test_client_provider::get_test_client;
+use ark_bls12_377::Bls12_377 as ArkBls12_377;
+use ark_bls12_381::Bls12_381 as ArkBls12_381;
+use crate::curves::{bls12_377::Bls12_377, bls12_381::Bls12_381};
 
 #[cfg(test)]
 mod test_client_provider;
+
+use crate::test_client_provider::get_test_client;
 
 #[test]
 fn test_ark_substrate_bls12_381_groth16_in_runtime() {
 	// Configure stack size
 	let stack_size: i32 = 1048576;
-	// let stack_size = OsString::from(stack_size.to_string());
-	// build runtime with custom stack size
 	// Get runtime client for testing
 	let test_client = get_test_client(stack_size).expect("Test client builds");
 
@@ -58,7 +52,7 @@ fn test_arkworks_bls12_381_groth16_in_runtime() {
 	// Call into the host function
 	let result = test_client
 		.runtime_api()
-		.groth16_test_mimc_runtime::<Bls12_381>(test_client.chain_info().genesis_hash)
+		.groth16_test_mimc_runtime::<ArkBls12_381>(test_client.chain_info().genesis_hash)
 		.expect("Runtime execution of groth16 verifies");
 }
 
@@ -67,11 +61,10 @@ fn test_ark_substrate_bls12_377_groth16_in_runtime() {
 	// Get runtime client for testing
 	let stack_size: i32 = 1048576;
 	let test_client = get_test_client(stack_size).expect("Test client builds");
-	// Add assertions or further test code as needed...
 	// Call into the host function
 	let result = test_client
 		.runtime_api()
-		.test_groth16_bls12_377_runtime::<Bls12_377>(test_client.chain_info().genesis_hash)
+		.test_groth16_bls12_377_runtime::<ArkBls12_377>(test_client.chain_info().genesis_hash)
 		.expect("Runtime execution of groth16 verifies");
 }
 
