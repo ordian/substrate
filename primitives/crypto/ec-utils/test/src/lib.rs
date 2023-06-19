@@ -31,7 +31,7 @@ use std::{
 use test_client_provider::get_test_client;
 
 #[cfg(test)]
-mod test_client;
+mod test_client_provider;
 
 #[test]
 fn test_ark_substrate_bls12_381_groth16_in_runtime() {

@@ -59,6 +59,10 @@ pub fn mul_projective_g2(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, ()> 
 	mul_projective_generic::<g2::Config>(base, scalar)
 }
 
+pub type SPBls12_377 = Bls12_377Host<Host>;
+pub type SPG1Projective = G1ProjectiveHost<Host>;
+pub type SPG2Projective = G2ProjectiveHost<Host>;
+
 #[cfg(test)]
 mod tests {
 	use super::*;
@@ -91,10 +95,6 @@ mod tests {
 			crate::elliptic_curves::bls12_377_mul_projective_g2(base, scalar)
 		}
 	}
-
-	pub type Bls12_377 = Bls12_377Host<Host>;
-	pub type G1Projective = G1ProjectiveHost<Host>;
-	pub type G2Projective = G2ProjectiveHost<Host>;
 
 	test_group!(g1; G1Projective; sw);
 	test_group!(g2; G2Projective; sw);

@@ -1,6 +1,6 @@
 use test_client_configurator::compose_test_client;
 
-fn get_test_client(stack_size: i32) - Result<Client<Backend, EccExecutor, Block, RuntimeApi>, ApiError>;
+fn get_test_client(stack_size: i32) -> Result<Client<Backend, EccExecutor, Block, RuntimeApi>, ApiError>
 {
     let _ = Command::new("cargo")
 		.env("STACK_SIZE", stack_size)

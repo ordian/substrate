@@ -32,7 +32,7 @@ use sp_state_machine::ExecutionStrategy;
 use sp_storage::Storage;
 use sp_wasm_interface::ExtendedHostFunctions;
 use std::{process::Command, sync::Arc};
-use substrate_test_client::TestClientBuilder;
+use substrate_test_provider::TestClientBuilder;
 use substrate_test_runtime_client::client::{ClientConfig, LocalCallExecutor};
 use crate:OsString;
 
