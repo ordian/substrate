@@ -17,11 +17,15 @@
 
 //! Runtime tests for sp-crypto-ec-utils
 
-use crate::{consts, test_client::get_test_client};
+use crate::test_client::get_test_client;
 use ark_bls12_377::Bls12_377;
 use ark_bls12_381::Bls12_381;
 use sp_crypto_ec_utils::{
 	bls12_377::Bls12_377 as Bls12_377ArkSubstrate, bls12_381::Bls12_381 as Bls12_381ArkSubstrate,
+};
+use std::{
+	ffi::{OsStr, OsString},
+	process::Command,
 };
 
 #[cfg(test)]
@@ -30,9 +34,16 @@ mod test_client;
 #[test]
 fn test_ark_substrate_bls12_381_groth16_in_runtime() {
 	// Configure stack size
-	let stack_size: i32 = unimplemented!();
+	let stack_size: i32 = 1048576;
+	let stack_size = OsString::from(stack_size.to_string());
+	// build runtime with custom stack size
+	let _ = Command::new("cargo")
+		.env("STACK_SIZE", stack_size)
+		.arg("build")
+		.output()
+		.expect("Failed to run build command");
 	// Get runtime client for testing
-	let test_client = get_test_client(stack_size).expect("Test client builds");
+	let test_client = get_test_client().expect("Test client builds");
 
 	// Call into the host function
 	let result = test_client
@@ -44,9 +55,15 @@ fn test_ark_substrate_bls12_381_groth16_in_runtime() {
 #[test]
 fn test_arkworks_bls12_381_groth16_in_runtime() {
 	// Configure stack size
-	let stack_size = unimplemented!();
-	let test_client = get_test_client(stack_size).expect("Test client builds");
-
+	let stack_size: i32 = 1048576;
+	let stack_size = OsString::from(stack_size.to_string());
+	// Set the environment variable and build the runtime
+	let _ = Command::new("cargo")
+		.env("STACK_SIZE", stack_size)
+		.arg("build")
+		.output()
+		.expect("Failed to run build command");
+	let test_client = get_test_client().expect("Test client builds");
 	// Call into the host function
 	let result = test_client
 		.runtime_api()
@@ -57,9 +74,16 @@ fn test_arkworks_bls12_381_groth16_in_runtime() {
 #[test]
 fn test_ark_substrate_bls12_377_groth16_in_runtime() {
 	// Get runtime client for testing
-	let stack_size = unimplemented!();
-	let test_client = get_test_client(stack_size).expect("Test client builds");
-
+	let stack_size: i32 = 1048576;
+	let stack_size = OsString::from(stack_size.to_string());
+	// Set the environment variable and build the runtime
+	let _ = Command::new("cargo")
+		.env("STACK_SIZE", stack_size)
+		.arg("build")
+		.output()
+		.expect("Failed to run build command");
+	let test_client = get_test_client().expect("Test client builds");
+	// Add assertions or further test code as needed...
 	// Call into the host function
 	let result = test_client
 		.runtime_api()
@@ -70,9 +94,15 @@ fn test_ark_substrate_bls12_377_groth16_in_runtime() {
 #[test]
 fn test_arkworks_bls12_377_groth16_in_runtime() {
 	// Get runtime client for testing
-	let stack_size = unimplemented!();
-	let test_client = get_test_client(stack_size).expect("Test client builds");
-
+	let stack_size: i32 = 1048576;
+	let stack_size = OsString::from(stack_size.to_string());
+	// Set the environment variable and build the runtime
+	let _ = Command::new("cargo")
+		.env("STACK_SIZE", stack_size)
+		.arg("build")
+		.output()
+		.expect("Failed to run build command");
+	let test_client = get_test_client().expect("Test client builds");
 	// Call into the host function
 	let result = test_client
 		.runtime_api()

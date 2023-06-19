@@ -18,6 +18,7 @@ use std::{env, format};
 
 fn main() {
 	if let Ok(stack_value) = env::var("STACK_SIZE") {
+		let stack_value = stack_value.as_str();
 		let stack_arg = std::format!("-Clink-arg=-zstack-size={}", stack_value);
 		#[cfg(feature = "std")]
 		{
