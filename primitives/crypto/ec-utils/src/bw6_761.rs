@@ -63,6 +63,10 @@ pub fn mul_projective_g2(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, ()> 
 mod tests {
 	use super::*;
 	use ark_algebra_test_templates::*;
+	use sp_ark_bw6_761::{
+		G1Projective as G1ProjectiveHost, G2Projective as G2ProjectiveHost, HostFunctions,
+		BW6_761 as BW6_761Host,
+	};
 
 	#[derive(PartialEq, Eq)]
 	pub struct Host;

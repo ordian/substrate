@@ -1,5 +1,5 @@
-use test_client_configurator::compose_test_client;
 use std::process::Command;
+use test_client_configurator::compose_test_client;
 
 pub fn get_test_client(
 	stack_size: i32,

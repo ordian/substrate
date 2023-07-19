@@ -38,6 +38,7 @@ pub fn mul_projective(base: Vec<u8>, scalar: Vec<u8>) -> Result<Vec<u8>, ()> {
 mod tests {
 	use super::*;
 	use ark_algebra_test_templates::*;
+	use sp_ark_ed_on_bls12_377::{EdwardsProjective as EdwardsProjectiveHost, HostFunctions};
 
 	pub struct Host {}
 

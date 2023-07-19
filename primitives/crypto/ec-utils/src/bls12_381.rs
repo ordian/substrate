@@ -75,7 +75,7 @@ mod tests {
 	use sp_ark_models::pairing::PairingOutput;
 
 	#[derive(PartialEq, Eq)]
-	struct Host;
+	pub struct Host;
 
 	impl HostFunctions for Host {
 		fn bls12_381_multi_miller_loop(a: Vec<u8>, b: Vec<u8>) -> Result<Vec<u8>, ()> {

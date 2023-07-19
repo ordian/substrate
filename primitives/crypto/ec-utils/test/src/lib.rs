@@ -19,10 +19,12 @@
 
 mod curves;
 mod test_client_provider;
-use crate::test_client_provider::get_test_client;
+use crate::{
+	curves::{bls12_377::Bls12_377, bls12_381::Bls12_381},
+	test_client_provider::get_test_client,
+};
 use ark_bls12_377::Bls12_377 as ArkBls12_377;
 use ark_bls12_381::Bls12_381 as ArkBls12_381;
-use crate::curves::{bls12_377::Bls12_377, bls12_381::Bls12_381};
 
 #[cfg(test)]
 mod test_client_provider;
